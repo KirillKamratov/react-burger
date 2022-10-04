@@ -1,0 +1,35 @@
+.menu {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.button {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 337px);
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll;
+  list-style: none;
+}
+
+.list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.list::-webkit-scrollbar-track {
+  background-color: #2f2f37;
+}
+
+.list::-webkit-scrollbar-thumb {
+  height: 292px;
+  background-color: #8585ad;
+}
