@@ -9,7 +9,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
 function Header() {
-  return (
+  return 1(
     <header className={headerStyles.header}>
       <nav className={headerStyles.navigation}>
         <ul className={headerStyles.list}>
@@ -40,7 +40,7 @@ function Header() {
           </li>
         </ul>
       </nav>
-    </header>
+    </header>,
   )
 }
 
