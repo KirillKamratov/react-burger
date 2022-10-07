@@ -1,11 +1,11 @@
 import React from 'react'
-import './App.css'
+import AppStyles from './App.module.css'
 import Header from '../header'
 import Main from '../main'
 
 function App() {
   return (
-    <div className='App'>
+    <div className={`${AppStyles.App}`}>
       <Header />
       <Main />
     </div>
