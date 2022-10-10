@@ -1,58 +1,72 @@
 import PropTypes from 'prop-types'
+import { ingredientPropTypes } from '../../utils/propTypes'
+import { INGREDIENT_TYPES } from '../../utils/utils'
 import React from 'react'
 import ingredientsGridStyles from './ingredients-grid.module.css'
-import data from '../../utils/data'
 import Ingredient from '../ingredient'
+import Modal from '../modal'
+import IngredientDetails from '../ingredient-details'
 
-class IngredientsGrid extends React.Component {
-  constructor(props) {
-    super(props)
-  }
+function IngredientsGrid(props) {
+  const buns = []
+  const sauces = []
+  const mains = []
 
-  render() {
-    const buns = []
-    const sauces = []
-    const mains = []
+  const [clickedIngredientId, setClickedIngredientId] = React.useState(null)
 
-    data.forEach(ingredient => {
-      if (ingredient.type === 'bun') {
-        buns.push(ingredient)
-      } else if (ingredient.type === 'sauce') {
-        sauces.push(ingredient)
-      } else if (ingredient.type === 'main') {
-        mains.push(ingredient)
-      }
-    })
-    return (
-      <div>
-        <h2
-          className={`'text text_type_main-medium text_color_primary'`}
-          id={this.props.type}
-        >
-          {this.props.text}
-        </h2>
-        <div className={`mb-10 ${ingredientsGridStyles.grid}`}>
-          {[...buns, ...sauces, ...mains]
-            .filter(ingredient => {
-              return ingredient.type === this.props.type
-            })
-            .map((ingredient, key) => {
-              return (
-                <Ingredient
-                  card={ingredient}
-                  key={ingredient._id}
-                />
-              )
-            })}
-        </div>
+  props.ingredients.forEach(ingredient => {
+    if (ingredient.type === INGREDIENT_TYPES.BUN) {
+      buns.push(ingredient)
+    } else if (ingredient.type === INGREDIENT_TYPES.SAUCE) {
+      sauces.push(ingredient)
+    } else if (ingredient.type === INGREDIENT_TYPES.MAIN) {
+      mains.push(ingredient)
+    }
+  })
+  return (
+    <>
+      <h2
+        className={`'text text_type_main-medium text_color_primary'`}
+        id={props.type}
+      >
+        {props.text}
+      </h2>
+      <div className={`mb-10 ${ingredientsGridStyles.grid}`}>
+        {[...buns, ...sauces, ...mains]
+          .filter(ingredient => {
+            return ingredient.type === props.type
+          })
+          .map((ingredient, key) => {
+            return (
+              <Ingredient
+                card={ingredient}
+                key={ingredient._id}
+                onClick={() => {
+                  setClickedIngredientId(ingredient._id)
+                }}
+              />
+            )
+          })}
       </div>
-    )
-  }
+      {clickedIngredientId != null && (
+        <Modal
+          closeModal={() => {
+            setClickedIngredientId(null)
+          }}
+        >
+          <IngredientDetails
+            ingredient={props.ingredients.find(item => {
+              return item._id === clickedIngredientId
+            })}
+          />
+        </Modal>
+      )}
+    </>
+  )
 }
 
 IngredientsGrid.propTypes = {
-  type: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
+  ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
 }
 
 export default IngredientsGrid

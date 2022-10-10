@@ -1,13 +1,16 @@
+import PropTypes from 'prop-types'
+import { ingredientPropTypes } from '../../utils/propTypes'
 import React from 'react'
 import burgerIngredientsStyles from './burger-ingredients.module.css'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
+import { INGREDIENT_TYPES } from '../../utils/utils'
 import IngredientsGrid from '../ingredients-grid'
 
-function BurgerIngredients() {
-  const [state, setState] = React.useState('Булки')
+function BurgerIngredients(props) {
+  const [category, setCategory] = React.useState(INGREDIENT_TYPES.BUN)
 
   const handleValueSwitch = value => {
-    setState(value)
+    setCategory(value)
   }
 
   return (
@@ -23,9 +26,9 @@ function BurgerIngredients() {
               href='#bun'
             >
               <Tab
-                active={state.value === 'Булки'}
+                active={category === INGREDIENT_TYPES.BUN}
                 onClick={handleValueSwitch}
-                value={'Булки'}
+                value={INGREDIENT_TYPES.BUN}
               >
                 Булки
               </Tab>
@@ -37,9 +40,9 @@ function BurgerIngredients() {
               href='#sauce'
             >
               <Tab
-                active={state.value === 'Соусы'}
+                active={category === INGREDIENT_TYPES.SAUCE}
                 onClick={handleValueSwitch}
-                value={'Соусы'}
+                value={INGREDIENT_TYPES.SAUCE}
               >
                 Соусы
               </Tab>
@@ -51,9 +54,9 @@ function BurgerIngredients() {
               href='#main'
             >
               <Tab
-                active={state.value === 'Начинки'}
+                active={category === INGREDIENT_TYPES.MAIN}
                 onClick={handleValueSwitch}
-                value={'Начинки'}
+                value={INGREDIENT_TYPES.MAIN}
               >
                 Начинки
               </Tab>
@@ -62,27 +65,34 @@ function BurgerIngredients() {
         </ul>
       </nav>
       <ul className={`${burgerIngredientsStyles.list}`}>
-        <li className={burgerIngredientsStyles.item}>
+        <li>
           <IngredientsGrid
-            type='bun'
+            ingredients={props.ingredients}
+            type={INGREDIENT_TYPES.BUN}
             text='Булки'
           />
         </li>
-        <li className={burgerIngredientsStyles.item}>
+        <li>
           <IngredientsGrid
-            type='sauce'
+            ingredients={props.ingredients}
+            type={INGREDIENT_TYPES.SAUCE}
             text='Соусы'
           />
         </li>
-        <li className={burgerIngredientsStyles.item}>
+        <li>
           <IngredientsGrid
-            type='main'
+            ingredients={props.ingredients}
+            type={INGREDIENT_TYPES.MAIN}
             text='Начинки'
           />
         </li>
       </ul>
     </>
   )
+}
+
+BurgerIngredients.propTypes = {
+  ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
 }
 
 export default BurgerIngredients

@@ -4,36 +4,42 @@ import {
   Counter,
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
+import PropTypes from 'prop-types'
+import { ingredientPropTypes } from '../../utils/propTypes'
 
-class Ingredient extends React.Component {
-  constructor(props) {
-    super(props)
-  }
+function Ingredient({ card, onClick }) {
+  let count
 
-  render() {
-    return (
-      <div className={ingredientStyles.item}>
+  return (
+    <div
+      className={ingredientStyles.item}
+      onClick={onClick}
+    >
+      {count > 0 ? (
         <Counter
-          count={0}
+          count={count}
           size='default'
         />
-        <img
-          src={this.props.card.image}
-          className={`mt-1 mb-1 ${ingredientStyles.image}`}
-          alt={this.props.card.name}
-        />
-        <p className={ingredientStyles.price}>
-          <span className='text text_type_digits-default'>
-            {this.props.card.price}
-          </span>
-          <CurrencyIcon type='primary' />
-        </p>
-        <p className={`${ingredientStyles.text} text text_type_main-default`}>
-          {this.props.card.name}
-        </p>
-      </div>
-    )
-  }
+      ) : null}
+      <img
+        src={card.image}
+        className={`mt-1 mb-1 ${ingredientStyles.image}`}
+        alt={card.name}
+      />
+      <p className={ingredientStyles.price}>
+        <span className='text text_type_digits-default'>{card.price}</span>
+        <CurrencyIcon type='primary' />
+      </p>
+      <p className={`${ingredientStyles.text} text text_type_main-default`}>
+        {card.name}
+      </p>
+    </div>
+  )
+}
+
+Ingredient.propTypes = {
+  card: ingredientPropTypes.isRequired,
+  onClick: PropTypes.func.isRequired,
 }
 
 export default Ingredient

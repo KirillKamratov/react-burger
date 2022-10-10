@@ -22,7 +22,7 @@ function NavItem({ icon, type, children }) {
 NavItem.propTypes = {
   type: PropTypes.string.isRequired,
   icon: PropTypes.func.isRequired,
-  children: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 }
 
 export default NavItem
