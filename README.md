@@ -2,7 +2,7 @@
 
 ## Используемые технологии
 
-- React 18 (FC)
+- React 18
 - Babel
 - PropTypes
 
