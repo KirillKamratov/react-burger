@@ -1,4 +1,5 @@
 {
+  "homepage": "https://KirillKamratov.github.io/react-burger",
   "name": "react-burger",
   "version": "0.1.0",
   "private": true,
@@ -14,12 +15,12 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm build",
-    "deploy": "gh-pages -d dist",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "editorconfig": "editorconfig-cli",
     "stylelint": "stylelint \"src/**/*.css\"",
     "stylelint:fix": "stylelint \"src/**/*.css\"  --fix",
-    "lint": "npm editorconfig && npm stylelint",
+    "lint": "npm run editorconfig && npm run stylelint",
     "prepare": "husky install",
     "staged": "lint-staged",
     "ci": "rm -rf node_modules && npm install --frozen-lockfile"
@@ -47,7 +48,7 @@
     "src/**/*.{js,jsx,ts,tsx,scss,css}"
   ],
   "lint-staged": {
-    "*": "npm lint"
+    "*": "npm run lint"
   },
   "devDependencies": {
     "@htmlacademy/editorconfig-cli": "^1.0.0",
