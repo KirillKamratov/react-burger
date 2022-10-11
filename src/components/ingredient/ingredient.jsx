@@ -15,12 +15,12 @@ function Ingredient({ card, onClick }) {
       className={ingredientStyles.item}
       onClick={onClick}
     >
-      {count > 0 ? (
+      {count > 0 && (
         <Counter
           count={count}
           size='default'
         />
-      ) : null}
+      )}
       <img
         src={card.image}
         className={`mt-1 mb-1 ${ingredientStyles.image}`}

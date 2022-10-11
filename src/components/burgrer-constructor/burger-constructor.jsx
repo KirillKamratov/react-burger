@@ -39,7 +39,7 @@ function BurgerConstructor(props) {
         </li>
         <ul className={`${burgerConstructorStyles.list}`}>
           <li className={`mb-4  ${burgerConstructorStyles.item}`}>
-            <DragIcon type={'primary'} />
+            <DragIcon type='primary' />
             <ConstructorElement
               text={`${props.ingredients[0].name}`}
               price={props.ingredients[0].price}
@@ -47,7 +47,7 @@ function BurgerConstructor(props) {
             />
           </li>
           <li className={`mb-4  ${burgerConstructorStyles.item}`}>
-            <DragIcon type={'primary'} />
+            <DragIcon type='primary' />
             <ConstructorElement
               text={`${props.ingredients[0].name}`}
               price={props.ingredients[0].price}
@@ -55,7 +55,7 @@ function BurgerConstructor(props) {
             />
           </li>
           <li className={`mb-4  ${burgerConstructorStyles.item}`}>
-            <DragIcon type={'primary'} />
+            <DragIcon type='primary' />
             <ConstructorElement
               text={`${props.ingredients[0].name}`}
               price={props.ingredients[0].price}
@@ -63,7 +63,7 @@ function BurgerConstructor(props) {
             />
           </li>
           <li className={`mb-4  ${burgerConstructorStyles.item}`}>
-            <DragIcon type={'primary'} />
+            <DragIcon type='primary' />
             <ConstructorElement
               text={`${props.ingredients[0].name}`}
               price={props.ingredients[0].price}
@@ -71,7 +71,7 @@ function BurgerConstructor(props) {
             />
           </li>
           <li className={`mb-4  ${burgerConstructorStyles.item}`}>
-            <DragIcon type={'primary'} />
+            <DragIcon type='primary' />
             <ConstructorElement
               text={`${props.ingredients[0].name}`}
               price={props.ingredients[0].price}
@@ -99,7 +99,7 @@ function BurgerConstructor(props) {
         </p>
         <Button
           onClick={openModal}
-          htmlType={'button'}
+          htmlType='button'
           type='primary'
           size='large'
         >

@@ -31,7 +31,7 @@ function Modal({ closeModal, children }) {
           className={modalStyles.close}
           onClick={closeModal}
         >
-          <CloseIcon type={'primary'} />
+          <CloseIcon type='primary' />
         </button>
       </div>
     </>

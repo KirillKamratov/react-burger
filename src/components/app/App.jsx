@@ -2,7 +2,7 @@ import React from 'react'
 import AppStyles from './App.module.css'
 import Header from '../header'
 import Main from '../main'
-import { URL } from '../../utils/utils'
+import { INGREDIENTS_URL } from '../../utils/utils'
 
 function App() {
   const [serverIngredients, setServerIngredients] = React.useState([])
@@ -15,7 +15,8 @@ function App() {
       return Promise.reject(`Ошибка: ${res.status}`)
     }
     const getBurgerIngredients = () => {
-      fetch(URL)
+      console.log(INGREDIENTS_URL)
+      fetch(INGREDIENTS_URL)
         .then(isOk)
         .then(ingredients => {
           setServerIngredients(ingredients.data)

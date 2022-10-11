@@ -4,4 +4,5 @@ export const INGREDIENT_TYPES = {
   MAIN: 'main',
 }
 
-export const URL = 'https://norma.nomoreparties.space/api/ingredients'
+const BASE_API_URL = 'https://norma.nomoreparties.space/api'
+export const INGREDIENTS_URL = `${BASE_API_URL}/ingredients`

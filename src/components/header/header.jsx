@@ -15,13 +15,13 @@ function Header() {
         <ul className={headerStyles.list}>
           <li className={headerStyles.item}>
             <NavItem
-              type={'primary'}
+              type='primary'
               icon={BurgerIcon}
             >
               Конструктор
             </NavItem>
             <NavItem
-              type={'secondary'}
+              type='secondary'
               icon={ListIcon}
             >
               Лента заказов
@@ -32,7 +32,7 @@ function Header() {
           </li>
           <li className={headerStyles.item}>
             <NavItem
-              type={'secondary'}
+              type='secondary'
               icon={ProfileIcon}
             >
               Личный кабинет
