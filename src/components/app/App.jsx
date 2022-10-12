@@ -15,7 +15,6 @@ function App() {
       return Promise.reject(`Ошибка: ${res.status}`)
     }
     const getBurgerIngredients = () => {
-      console.log(INGREDIENTS_URL)
       fetch(INGREDIENTS_URL)
         .then(isOk)
         .then(ingredients => {
