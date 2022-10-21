@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types'
-import { ingredientPropTypes } from '../../utils/propTypes'
 import React from 'react'
 import burgerConstructorStyles from './burger-constructor.module.css'
 import {
@@ -10,11 +8,27 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import Modal from '../modal'
 import OrderDetails from '../order-details'
+import { IngredientContext } from '../../providers/ingredientContext'
+import { INGREDIENT_TYPES } from '../../utils/utils'
+import { sendOrder } from '../../utils/api'
 
-function BurgerConstructor(props) {
+function BurgerConstructor() {
   const [isOrderDetailsOpened, setIsOrderDetailsOpened] = React.useState(false)
+  const [orderInfo, setOrderInfo] = React.useState({ orderNumber: '' })
+  const ingredients = React.useContext(IngredientContext)
+
+  const bun = ingredients.find(item => {
+    return item.type === INGREDIENT_TYPES.BUN
+  })
+
+  const order = [bun]
+
+  const cart = ingredients.map(item => {
+    return item._id
+  })
 
   const openModal = () => {
+    sendOrder(cart, setOrderInfo)
     setIsOrderDetailsOpened(true)
   }
 
@@ -22,9 +36,10 @@ function BurgerConstructor(props) {
     setIsOrderDetailsOpened(false)
   }
 
-  if (props.ingredients.length === 0) {
+  if (ingredients.length === 0) {
     return null
   }
+
   return (
     <>
       <ul className={`${burgerConstructorStyles.container}`}>
@@ -32,60 +47,38 @@ function BurgerConstructor(props) {
           <ConstructorElement
             type='top'
             isLocked={true}
-            text={`${props.ingredients[0].name} верх`}
-            price={props.ingredients[0].price}
-            thumbnail={props.ingredients[0].image_mobile}
+            text={`${bun.name} верх`}
+            price={bun.price}
+            thumbnail={bun.image_mobile}
           />
         </li>
         <ul className={`${burgerConstructorStyles.list}`}>
-          <li className={`mb-4  ${burgerConstructorStyles.item}`}>
-            <DragIcon type='primary' />
-            <ConstructorElement
-              text={`${props.ingredients[0].name}`}
-              price={props.ingredients[0].price}
-              thumbnail={props.ingredients[0].image_mobile}
-            />
-          </li>
-          <li className={`mb-4  ${burgerConstructorStyles.item}`}>
-            <DragIcon type='primary' />
-            <ConstructorElement
-              text={`${props.ingredients[0].name}`}
-              price={props.ingredients[0].price}
-              thumbnail={props.ingredients[0].image_mobile}
-            />
-          </li>
-          <li className={`mb-4  ${burgerConstructorStyles.item}`}>
-            <DragIcon type='primary' />
-            <ConstructorElement
-              text={`${props.ingredients[0].name}`}
-              price={props.ingredients[0].price}
-              thumbnail={props.ingredients[0].image_mobile}
-            />
-          </li>
-          <li className={`mb-4  ${burgerConstructorStyles.item}`}>
-            <DragIcon type='primary' />
-            <ConstructorElement
-              text={`${props.ingredients[0].name}`}
-              price={props.ingredients[0].price}
-              thumbnail={props.ingredients[0].image_mobile}
-            />
-          </li>
-          <li className={`mb-4  ${burgerConstructorStyles.item}`}>
-            <DragIcon type='primary' />
-            <ConstructorElement
-              text={`${props.ingredients[0].name}`}
-              price={props.ingredients[0].price}
-              thumbnail={props.ingredients[0].image_mobile}
-            />
-          </li>
+          {ingredients.map(item => {
+            if (item.type !== INGREDIENT_TYPES.BUN) {
+              order.push(item)
+              return (
+                <li
+                  className={`mb-4  ${burgerConstructorStyles.item}`}
+                  key={item._id}
+                >
+                  <DragIcon type='primary' />
+                  <ConstructorElement
+                    text={item.name}
+                    price={item.price}
+                    thumbnail={item.image_mobile}
+                  />
+                </li>
+              )
+            }
+          })}
         </ul>
         <li className={`pl-8 pr-4 mb-4 ${burgerConstructorStyles.item}`}>
           <ConstructorElement
             type='bottom'
             isLocked={true}
-            text={`${props.ingredients[0].name} низ`}
-            price={props.ingredients[0].price}
-            thumbnail={props.ingredients[0].image_mobile}
+            text={`${bun.name} низ`}
+            price={bun.price}
+            thumbnail={bun.image_mobile}
           />
         </li>
       </ul>
@@ -94,7 +87,9 @@ function BurgerConstructor(props) {
           className={`mr-10 text text_color_primary text_type_digits-medium
              ${burgerConstructorStyles.price}`}
         >
-          <span>610</span>
+          <span>
+            {ingredients.reduce((total, item) => total + item.price, 0)}
+          </span>
           <CurrencyIcon type='primary' />
         </p>
         <Button
@@ -107,16 +102,12 @@ function BurgerConstructor(props) {
         </Button>
         {isOrderDetailsOpened && (
           <Modal closeModal={closeAllModals}>
-            <OrderDetails />
+            <OrderDetails orderInfo={orderInfo} />
           </Modal>
         )}
       </div>
     </>
   )
-}
-
-BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
 }
 
 export default BurgerConstructor

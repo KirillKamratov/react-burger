@@ -1,11 +1,10 @@
-import PropTypes from 'prop-types'
-import { ingredientPropTypes } from '../../utils/propTypes'
 import { INGREDIENT_TYPES } from '../../utils/utils'
 import React from 'react'
 import ingredientsGridStyles from './ingredients-grid.module.css'
 import Ingredient from '../ingredient'
 import Modal from '../modal'
 import IngredientDetails from '../ingredient-details'
+import { IngredientContext } from '../../providers/ingredientContext'
 
 function IngredientsGrid(props) {
   const buns = []
@@ -13,8 +12,9 @@ function IngredientsGrid(props) {
   const mains = []
 
   const [clickedIngredientId, setClickedIngredientId] = React.useState(null)
+  const ingredients = React.useContext(IngredientContext)
 
-  props.ingredients.forEach(ingredient => {
+  ingredients.forEach(ingredient => {
     if (ingredient.type === INGREDIENT_TYPES.BUN) {
       buns.push(ingredient)
     } else if (ingredient.type === INGREDIENT_TYPES.SAUCE) {
@@ -55,7 +55,7 @@ function IngredientsGrid(props) {
           }}
         >
           <IngredientDetails
-            ingredient={props.ingredients.find(item => {
+            ingredient={ingredients.find(item => {
               return item._id === clickedIngredientId
             })}
           />
@@ -63,10 +63,6 @@ function IngredientsGrid(props) {
       )}
     </>
   )
-}
-
-IngredientsGrid.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
 }
 
 export default IngredientsGrid

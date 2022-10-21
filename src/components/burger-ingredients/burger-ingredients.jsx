@@ -1,12 +1,10 @@
-import PropTypes from 'prop-types'
-import { ingredientPropTypes } from '../../utils/propTypes'
 import React from 'react'
 import burgerIngredientsStyles from './burger-ingredients.module.css'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import { INGREDIENT_TYPES } from '../../utils/utils'
 import IngredientsGrid from '../ingredients-grid'
 
-function BurgerIngredients(props) {
+function BurgerIngredients() {
   const [category, setCategory] = React.useState(INGREDIENT_TYPES.BUN)
 
   const handleValueSwitch = value => {
@@ -67,21 +65,18 @@ function BurgerIngredients(props) {
       <ul className={`${burgerIngredientsStyles.list}`}>
         <li>
           <IngredientsGrid
-            ingredients={props.ingredients}
             type={INGREDIENT_TYPES.BUN}
             text='Булки'
           />
         </li>
         <li>
           <IngredientsGrid
-            ingredients={props.ingredients}
             type={INGREDIENT_TYPES.SAUCE}
             text='Соусы'
           />
         </li>
         <li>
           <IngredientsGrid
-            ingredients={props.ingredients}
             type={INGREDIENT_TYPES.MAIN}
             text='Начинки'
           />
@@ -89,10 +84,6 @@ function BurgerIngredients(props) {
       </ul>
     </>
   )
-}
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
 }
 
 export default BurgerIngredients

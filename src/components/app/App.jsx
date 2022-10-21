@@ -2,32 +2,21 @@ import React from 'react'
 import AppStyles from './App.module.css'
 import Header from '../header'
 import Main from '../main'
-import { INGREDIENTS_URL } from '../../utils/utils'
+import { getBurgerIngredients } from '../../utils/api'
+import { IngredientContext } from '../../providers/ingredientContext'
 
 function App() {
   const [serverIngredients, setServerIngredients] = React.useState([])
 
   React.useEffect(() => {
-    const isOk = res => {
-      if (res.ok) {
-        return res.json()
-      }
-      return Promise.reject(`Ошибка: ${res.status}`)
-    }
-    const getBurgerIngredients = () => {
-      fetch(INGREDIENTS_URL)
-        .then(isOk)
-        .then(ingredients => {
-          setServerIngredients(ingredients.data)
-        })
-    }
-    getBurgerIngredients()
+    getBurgerIngredients(setServerIngredients)
   }, [])
-
   return (
     <div className={`${AppStyles.App}`}>
       <Header />
-      <Main ingredients={serverIngredients} />
+      <IngredientContext.Provider value={serverIngredients}>
+        <Main />
+      </IngredientContext.Provider>
     </div>
   )
 }
