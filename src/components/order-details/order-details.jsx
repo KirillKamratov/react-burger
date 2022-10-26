@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import orderDetailsStyles from './order-details.module.css'
 import checkIcon from '../../images/checkIcon.png'
 
@@ -23,6 +24,12 @@ function OrderDetails({ orderInfo }) {
       </p>
     </div>
   )
+}
+
+OrderDetails.propTypes = {
+  orderInfo: PropTypes.shape({
+    orderNumber: PropTypes.node.isRequired,
+  }),
 }
 
 export default OrderDetails

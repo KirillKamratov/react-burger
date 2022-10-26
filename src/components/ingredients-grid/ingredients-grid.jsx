@@ -4,25 +4,22 @@ import ingredientsGridStyles from './ingredients-grid.module.css'
 import Ingredient from '../ingredient'
 import Modal from '../modal'
 import IngredientDetails from '../ingredient-details'
-import { IngredientContext } from '../../providers/ingredientContext'
+import { IngredientContext } from '../../services/ingredientContext'
 
 function IngredientsGrid(props) {
-  const buns = []
-  const sauces = []
-  const mains = []
-
-  const [clickedIngredientId, setClickedIngredientId] = React.useState(null)
   const ingredients = React.useContext(IngredientContext)
+  const [clickedIngredientId, setClickedIngredientId] = React.useState(null)
 
-  ingredients.forEach(ingredient => {
-    if (ingredient.type === INGREDIENT_TYPES.BUN) {
-      buns.push(ingredient)
-    } else if (ingredient.type === INGREDIENT_TYPES.SAUCE) {
-      sauces.push(ingredient)
-    } else if (ingredient.type === INGREDIENT_TYPES.MAIN) {
-      mains.push(ingredient)
-    }
-  })
+  const buns = React.useMemo(() => {
+    return ingredients.filter(item => item.type === INGREDIENT_TYPES.BUN)
+  }, [ingredients])
+  const mains = React.useMemo(() => {
+    return ingredients.filter(item => item.type === INGREDIENT_TYPES.MAIN)
+  }, [ingredients])
+  const sauces = React.useMemo(() => {
+    return ingredients.filter(item => item.type === INGREDIENT_TYPES.SAUCE)
+  }, [ingredients])
+
   return (
     <>
       <h2
