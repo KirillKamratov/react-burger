@@ -1,9 +1,10 @@
 import React from 'react'
 import AppStyles from './App.module.css'
 import Header from '../header'
-import Main from '../main'
 import { INGREDIENTS_URL, isOk } from '../../utils/api'
 import { IngredientContext } from '../../services/ingredientContext'
+import BurgerIngredients from '../burger-ingredients'
+import BurgerConstructor from '../burgrer-constructor'
 
 function App() {
   const [serverIngredients, setServerIngredients] = React.useState([])
@@ -22,7 +23,14 @@ function App() {
     <div className={`${AppStyles.App}`}>
       <Header />
       <IngredientContext.Provider value={serverIngredients}>
-        <Main />
+        <main className={AppStyles.main}>
+          <section className={`${AppStyles.constructor}`}>
+            <BurgerIngredients />
+          </section>
+          <section className={`pt-25`}>
+            <BurgerConstructor />
+          </section>
+        </main>
       </IngredientContext.Provider>
     </div>
   )
