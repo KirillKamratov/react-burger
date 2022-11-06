@@ -14,7 +14,7 @@ function Ingredient({ ingredient, onClick }) {
     type: 'ingredients',
     item: ingredient,
   })
-  const { ingredients: ingredientsIds, bunId } = useSelector(
+  const { ingredients: constructorIngredients, bunId } = useSelector(
     store => store.burgerConstructor,
   )
 
@@ -24,7 +24,7 @@ function Ingredient({ ingredient, onClick }) {
     count = 2
   }
 
-  ingredientsIds.forEach(ingredientId => {
+  constructorIngredients.forEach(ingredientId => {
     if (ingredient._id === ingredientId) {
       count += 1
     }

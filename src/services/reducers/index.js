@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { v4 as uuidv4 } from 'uuid'
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_REQUEST_SUCCESS,
@@ -12,7 +13,6 @@ import {
   GET_ORDER_NUMBER_SUCCESS,
   GET_ORDER_NUMBER_FAILED,
   GET_ORDER_NUMBER_REQUEST,
-  INITIALIZE_CONSTRUCTOR,
   RESET_CONSTRUCTOR,
 } from '../actions'
 
@@ -68,12 +68,6 @@ const ingredientsReducer = (state = serverIngredients, action) => {
 
 export const constructorReducer = (state = constructorState, action) => {
   switch (action.type) {
-    case INITIALIZE_CONSTRUCTOR: {
-      return {
-        ...state,
-        bunId: action.bunId,
-      }
-    }
     case ADD_BUN: {
       return {
         ...state,
@@ -83,7 +77,10 @@ export const constructorReducer = (state = constructorState, action) => {
     case ADD_INGREDIENT: {
       return {
         ...state,
-        ingredients: state.ingredients.concat(action.payload),
+        ingredients: state.ingredients.concat({
+          uuid: uuidv4(),
+          ingredientId: action.payload,
+        }),
       }
     }
     case MOVE_INGREDIENT: {
@@ -99,11 +96,8 @@ export const constructorReducer = (state = constructorState, action) => {
       }
     }
     case DELETE_INGREDIENT: {
-      const index = state.ingredients.indexOf(action.payload)
-      const newIngredients = [
-        ...state.ingredients.slice(0, index),
-        ...state.ingredients.slice(index + 1),
-      ]
+      const newIngredients = [...state.ingredients]
+      newIngredients.splice(action.payload, 1)
       return {
         ...state,
         ingredients: newIngredients,

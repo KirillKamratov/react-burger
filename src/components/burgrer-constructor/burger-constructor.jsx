@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   ADD_BUN,
   ADD_INGREDIENT,
-  MOVE_INGREDIENT,
   RESET_CONSTRUCTOR,
   sendOrder,
 } from '../../services/actions'
@@ -25,17 +24,27 @@ function BurgerConstructor() {
   const [isOrderDetailsOpened, setIsOrderDetailsOpened] = React.useState(false)
   const orderNumber = useSelector(store => store.orderDetails.orderNumber)
   const serverIngredients = useSelector(selectIngredients)
-  const { ingredients: ingredientsIds, bunId } = useSelector(
+  const { ingredients: constructorIngredients, bunId } = useSelector(
     store => store.burgerConstructor,
   )
 
-  const ingredients = ingredientsIds.map(id => {
-    return serverIngredients.find(ing => ing._id === id)
+  console.log(constructorIngredients)
+
+  const ingredients = constructorIngredients.map(ingredient => {
+    const serverIngredient = serverIngredients.find(
+      ing => ing._id === ingredient.ingredientId,
+    )
+    return {
+      uuid: ingredient.uuid,
+      ...serverIngredient,
+    }
   })
+
+  console.log(ingredients)
 
   const bun = React.useMemo(() => {
     return serverIngredients.find(ingredient => ingredient._id === bunId)
-  }, [ingredientsIds, bunId])
+  }, [constructorIngredients, bunId])
 
   const [, dropRef] = useDrop({
     accept: 'ingredients',
@@ -78,45 +87,54 @@ function BurgerConstructor() {
     })
   }
 
-  if (ingredients.length === 0 && bunId === null) {
-    return null
-  }
+  const isEmpty = ingredients.length === 0 && bunId === null
+
   return (
-    <>
-      <ul
-        className={`${burgerConstructorStyles.container}`}
-        ref={dropRef}
-      >
-        <li className={`pl-8 pr-4 mb-4 ${burgerConstructorStyles.item}`}>
-          <ConstructorElement
-            type='top'
-            isLocked={true}
-            text={`${bun.name} (верх)`}
-            price={bun.price}
-            thumbnail={bun.image_mobile}
-          />
-        </li>
-        <ul className={`${burgerConstructorStyles.list}`}>
-          {ingredients.map((ingredient, index) => {
-            return (
-              <ConstructorIngredient
-                ingredient={ingredient}
-                index={index}
-                key={ingredient._id + index}
+    <section
+      className={`pt-25`}
+      ref={dropRef}
+    >
+      {isEmpty ? (
+        <p className={'text text_color_primary text_type_main-large'}>
+          Перетащите ингредиент
+        </p>
+      ) : (
+        <ul className={`${burgerConstructorStyles.container}`}>
+          {bun && (
+            <li className={`pl-8 pr-4 mb-4 ${burgerConstructorStyles.item}`}>
+              <ConstructorElement
+                type='top'
+                isLocked={true}
+                text={`${bun.name} (верх)`}
+                price={bun.price}
+                thumbnail={bun.image_mobile}
               />
-            )
-          })}
+            </li>
+          )}
+          <ul className={`${burgerConstructorStyles.list}`}>
+            {ingredients.map((ingredient, index) => {
+              return (
+                <ConstructorIngredient
+                  ingredient={ingredient}
+                  index={index}
+                  key={ingredient.uuid}
+                />
+              )
+            })}
+          </ul>
+          {bun && (
+            <li className={`pl-8 pr-4 mb-4 ${burgerConstructorStyles.item}`}>
+              <ConstructorElement
+                type='bottom'
+                isLocked={true}
+                text={`${bun.name} (низ)`}
+                price={bun.price}
+                thumbnail={bun.image_mobile}
+              />
+            </li>
+          )}
         </ul>
-        <li className={`pl-8 pr-4 mb-4 ${burgerConstructorStyles.item}`}>
-          <ConstructorElement
-            type='bottom'
-            isLocked={true}
-            text={`${bun.name} (низ)`}
-            price={bun.price}
-            thumbnail={bun.image_mobile}
-          />
-        </li>
-      </ul>
+      )}
       <div className={`${burgerConstructorStyles.summary} mt-10 mr-4`}>
         <p
           className={`mr-10 text text_color_primary text_type_digits-medium
@@ -139,7 +157,7 @@ function BurgerConstructor() {
           </Modal>
         )}
       </div>
-    </>
+    </section>
   )
 }
 

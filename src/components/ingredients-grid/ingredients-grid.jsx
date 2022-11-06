@@ -31,7 +31,7 @@ const IngredientsGrid = React.forwardRef((props, ref) => {
   return (
     <>
       <h2
-        className={`'text text_type_main-medium text_color_primary'`}
+        className={`text text_type_main-medium text_color_primary`}
         id={props.type}
       >
         {props.text}

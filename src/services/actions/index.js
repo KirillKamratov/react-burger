@@ -4,7 +4,6 @@ export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST'
 export const GET_INGREDIENTS_REQUEST_SUCCESS = 'GET_INGREDIENTS_REQUEST_SUCCESS'
 export const GET_INGREDIENTS_REQUEST_FAILED = 'GET_INGREDIENTS_REQUEST_FAILED'
 
-export const INITIALIZE_CONSTRUCTOR = 'INITIALIZE_CONSTRUCTOR'
 export const RESET_CONSTRUCTOR = 'RESET_CONSTRUCTOR'
 export const ADD_BUN = 'ADD_BUN'
 export const ADD_INGREDIENT = 'ADD_INGREDIENT'
@@ -29,10 +28,6 @@ export function getIngredients() {
         dispatch({
           type: GET_INGREDIENTS_REQUEST_SUCCESS,
           ingredients: ingredients.data,
-        })
-        dispatch({
-          type: INITIALIZE_CONSTRUCTOR,
-          bunId: ingredients.data[0]._id,
         })
       })
       .catch(() => {

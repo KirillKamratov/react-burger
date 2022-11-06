@@ -61,6 +61,7 @@ const ConstructorIngredient = ({ index, ingredient }) => {
     },
   })
   dragRef(dropRef(ref))
+  console.log(ingredient)
 
   return (
     <li
@@ -76,7 +77,7 @@ const ConstructorIngredient = ({ index, ingredient }) => {
         handleClose={() => {
           dispatch({
             type: DELETE_INGREDIENT,
-            payload: ingredient._id,
+            payload: index,
           })
         }}
       />

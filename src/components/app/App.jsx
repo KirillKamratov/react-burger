@@ -23,9 +23,7 @@ function App() {
           <section className={`${AppStyles.constructor}`}>
             <BurgerIngredients />
           </section>
-          <section className={`pt-25`}>
-            <BurgerConstructor />
-          </section>
+          <BurgerConstructor />
         </main>
       </DndProvider>
     </div>
