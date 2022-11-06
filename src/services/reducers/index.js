@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux'
-import { v4 as uuidv4 } from 'uuid'
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_REQUEST_SUCCESS,
@@ -77,10 +76,7 @@ export const constructorReducer = (state = constructorState, action) => {
     case ADD_INGREDIENT: {
       return {
         ...state,
-        ingredients: state.ingredients.concat({
-          uuid: uuidv4(),
-          ingredientId: action.payload,
-        }),
+        ingredients: state.ingredients.concat(action.payload),
       }
     }
     case MOVE_INGREDIENT: {
