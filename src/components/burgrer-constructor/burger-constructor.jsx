@@ -1,4 +1,5 @@
 import React from 'react'
+import { v4 as uuidv4 } from 'uuid'
 import burgerConstructorStyles from './burger-constructor.module.css'
 import {
   ConstructorElement,
@@ -28,19 +29,15 @@ function BurgerConstructor() {
     store => store.burgerConstructor,
   )
 
-  console.log(constructorIngredients)
-
   const ingredients = constructorIngredients.map(ingredient => {
     const serverIngredient = serverIngredients.find(
-      ing => ing._id === ingredient.ingredientId,
+      ing => ing._id === ingredient,
     )
     return {
-      uuid: ingredient.uuid,
       ...serverIngredient,
+      uuid: uuidv4(),
     }
   })
-
-  console.log(ingredients)
 
   const bun = React.useMemo(() => {
     return serverIngredients.find(ingredient => ingredient._id === bunId)
@@ -58,6 +55,7 @@ function BurgerConstructor() {
         dispatch({
           type: ADD_INGREDIENT,
           payload: ingredient._id,
+          uuid: uuidv4(),
         })
       }
     },
@@ -113,6 +111,7 @@ function BurgerConstructor() {
           )}
           <ul className={`${burgerConstructorStyles.list}`}>
             {ingredients.map((ingredient, index) => {
+              console.log(ingredient.uuid)
               return (
                 <ConstructorIngredient
                   ingredient={ingredient}

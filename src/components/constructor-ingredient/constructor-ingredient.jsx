@@ -61,7 +61,6 @@ const ConstructorIngredient = ({ index, ingredient }) => {
     },
   })
   dragRef(dropRef(ref))
-  console.log(ingredient)
 
   return (
     <li
