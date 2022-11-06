@@ -1,28 +1,24 @@
 import React from 'react'
 import AppStyles from './App.module.css'
 import Header from '../header'
-import { INGREDIENTS_URL, isOk } from '../../utils/api'
-import { IngredientContext } from '../../services/ingredientContext'
 import BurgerIngredients from '../burger-ingredients'
 import BurgerConstructor from '../burgrer-constructor'
+import { useDispatch } from 'react-redux'
+import { getIngredients } from '../../services/actions'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 function App() {
-  const [serverIngredients, setServerIngredients] = React.useState([])
+  const dispatch = useDispatch()
 
   React.useEffect(() => {
-    fetch(INGREDIENTS_URL)
-      .then(isOk)
-      .then(ingredients => {
-        setServerIngredients(ingredients.data)
-      })
-      .catch(error => {
-        console.log(error.message)
-      })
-  }, [])
+    dispatch(getIngredients())
+  }, [dispatch])
+
   return (
     <div className={`${AppStyles.App}`}>
       <Header />
-      <IngredientContext.Provider value={serverIngredients}>
+      <DndProvider backend={HTML5Backend}>
         <main className={AppStyles.main}>
           <section className={`${AppStyles.constructor}`}>
             <BurgerIngredients />
@@ -31,7 +27,7 @@ function App() {
             <BurgerConstructor />
           </section>
         </main>
-      </IngredientContext.Provider>
+      </DndProvider>
     </div>
   )
 }

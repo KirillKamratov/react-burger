@@ -4,63 +4,89 @@ import {
   ConstructorElement,
   Button,
   CurrencyIcon,
-  DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import Modal from '../modal'
 import OrderDetails from '../order-details'
-import { IngredientContext } from '../../services/ingredientContext'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  ADD_BUN,
+  ADD_INGREDIENT,
+  MOVE_INGREDIENT,
+  RESET_CONSTRUCTOR,
+  sendOrder,
+} from '../../services/actions'
+import { useDrop } from 'react-dnd'
+import { selectIngredients } from '../../services/reducers'
+import ConstructorIngredient from '../constructor-ingredient'
 import { INGREDIENT_TYPES } from '../../utils/utils'
-import { isOk, ORDER_URL } from '../../utils/api'
 
 function BurgerConstructor() {
+  const dispatch = useDispatch()
   const [isOrderDetailsOpened, setIsOrderDetailsOpened] = React.useState(false)
-  const [orderInfo, setOrderInfo] = React.useState({ orderNumber: '' })
-  const ingredients = React.useContext(IngredientContext)
+  const orderNumber = useSelector(store => store.orderDetails.orderNumber)
+  const serverIngredients = useSelector(selectIngredients)
+  const { ingredients: ingredientsIds, bunId } = useSelector(
+    store => store.burgerConstructor,
+  )
+
+  const ingredients = ingredientsIds.map(id => {
+    return serverIngredients.find(ing => ing._id === id)
+  })
 
   const bun = React.useMemo(() => {
-    return ingredients.find(item => item.type === INGREDIENT_TYPES.BUN)
-  }, [ingredients])
+    return serverIngredients.find(ingredient => ingredient._id === bunId)
+  }, [ingredientsIds, bunId])
 
-  const ingredientsWithoutBuns = React.useMemo(() => {
-    return ingredients.filter(item => item.type !== INGREDIENT_TYPES.BUN)
-  }, [ingredients])
+  const [, dropRef] = useDrop({
+    accept: 'ingredients',
+    drop(ingredient) {
+      if (ingredient.type === INGREDIENT_TYPES.BUN) {
+        dispatch({
+          type: ADD_BUN,
+          bunId: ingredient._id,
+        })
+      } else {
+        dispatch({
+          type: ADD_INGREDIENT,
+          payload: ingredient._id,
+        })
+      }
+    },
+  })
 
   const totalPrice = React.useMemo(() => {
-    return ingredients.reduce((total, item) => total + item.price, 0)
-  }, [ingredients])
+    return ingredients.reduce(
+      (total, item) => total + item.price,
+      bun ? bun.price * 2 : 0,
+    )
+  }, [ingredients, bun])
 
-  const order = [bun]
+  const order = []
 
   const openModal = () => {
-    fetch(ORDER_URL, {
-      method: 'POST',
-      body: JSON.stringify({
-        ingredients: order,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    ingredients.forEach(ingredient => {
+      order.push(ingredient._id, bunId, bunId)
     })
-      .then(isOk)
-      .then(data => {
-        setOrderInfo({ orderNumber: data.order.number })
-      })
-      .catch(error => {
-        console.log(error.message)
-      })
+    dispatch(sendOrder(order))
     setIsOrderDetailsOpened(true)
   }
 
-  const closeOrderModal = () => {
+  const closeModal = () => {
     setIsOrderDetailsOpened(false)
+    dispatch({
+      type: RESET_CONSTRUCTOR,
+    })
   }
 
-  if (ingredients.length === 0) {
+  if (ingredients.length === 0 && bunId === null) {
     return null
   }
   return (
     <>
-      <ul className={`${burgerConstructorStyles.container}`}>
+      <ul
+        className={`${burgerConstructorStyles.container}`}
+        ref={dropRef}
+      >
         <li className={`pl-8 pr-4 mb-4 ${burgerConstructorStyles.item}`}>
           <ConstructorElement
             type='top'
@@ -71,19 +97,13 @@ function BurgerConstructor() {
           />
         </li>
         <ul className={`${burgerConstructorStyles.list}`}>
-          {ingredientsWithoutBuns.map(item => {
+          {ingredients.map((ingredient, index) => {
             return (
-              <li
-                className={`mb-4  ${burgerConstructorStyles.item}`}
-                key={item._id}
-              >
-                <DragIcon type='primary' />
-                <ConstructorElement
-                  text={item.name}
-                  price={item.price}
-                  thumbnail={item.image_mobile}
-                />
-              </li>
+              <ConstructorIngredient
+                ingredient={ingredient}
+                index={index}
+                key={ingredient._id + index}
+              />
             )
           })}
         </ul>
@@ -114,8 +134,8 @@ function BurgerConstructor() {
           Оформить заказ
         </Button>
         {isOrderDetailsOpened && (
-          <Modal closeModal={closeOrderModal}>
-            <OrderDetails orderInfo={orderInfo} />
+          <Modal closeModal={closeModal}>
+            <OrderDetails orderNumber={orderNumber} />
           </Modal>
         )}
       </div>

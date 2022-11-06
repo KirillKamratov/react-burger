@@ -4,11 +4,19 @@ import ingredientsGridStyles from './ingredients-grid.module.css'
 import Ingredient from '../ingredient'
 import Modal from '../modal'
 import IngredientDetails from '../ingredient-details'
-import { IngredientContext } from '../../services/ingredientContext'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectIngredients } from '../../services/reducers'
+import {
+  HIDE_INGREDIENT_DETAILS,
+  SHOW_INGREDIENT_DETAILS,
+} from '../../services/actions'
 
-function IngredientsGrid(props) {
-  const ingredients = React.useContext(IngredientContext)
-  const [clickedIngredientId, setClickedIngredientId] = React.useState(null)
+const IngredientsGrid = React.forwardRef((props, ref) => {
+  const dispatch = useDispatch()
+  const ingredients = useSelector(selectIngredients)
+  const clickedIngredientId = useSelector(
+    store => store.ingredientDetails.clickedIngredientID,
+  )
 
   const buns = React.useMemo(() => {
     return ingredients.filter(item => item.type === INGREDIENT_TYPES.BUN)
@@ -28,7 +36,10 @@ function IngredientsGrid(props) {
       >
         {props.text}
       </h2>
-      <div className={`mb-10 ${ingredientsGridStyles.grid}`}>
+      <div
+        className={`mb-10 ${ingredientsGridStyles.grid}`}
+        ref={ref}
+      >
         {[...buns, ...sauces, ...mains]
           .filter(ingredient => {
             return ingredient.type === props.type
@@ -36,10 +47,13 @@ function IngredientsGrid(props) {
           .map((ingredient, key) => {
             return (
               <Ingredient
-                card={ingredient}
+                ingredient={ingredient}
                 key={ingredient._id}
                 onClick={() => {
-                  setClickedIngredientId(ingredient._id)
+                  dispatch({
+                    type: SHOW_INGREDIENT_DETAILS,
+                    ingredientID: ingredient._id,
+                  })
                 }}
               />
             )
@@ -48,7 +62,7 @@ function IngredientsGrid(props) {
       {clickedIngredientId != null && (
         <Modal
           closeModal={() => {
-            setClickedIngredientId(null)
+            dispatch({ type: HIDE_INGREDIENT_DETAILS })
           }}
         >
           <IngredientDetails
@@ -60,6 +74,6 @@ function IngredientsGrid(props) {
       )}
     </>
   )
-}
+})
 
 export default IngredientsGrid
