@@ -111,7 +111,6 @@ function BurgerConstructor() {
           )}
           <ul className={`${burgerConstructorStyles.list}`}>
             {ingredients.map((ingredient, index) => {
-              console.log(ingredient.uuid)
               return (
                 <ConstructorIngredient
                   ingredient={ingredient}
