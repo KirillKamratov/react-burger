@@ -107,6 +107,7 @@ export const constructorReducer = (state = constructorState, action) => {
       return {
         ...state,
         ingredients: constructorState.ingredients,
+        bunId: null,
       }
     }
     default: {
