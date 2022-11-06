@@ -55,7 +55,7 @@ function BurgerConstructor() {
         dispatch({
           type: ADD_INGREDIENT,
           payload: ingredient._id,
-          uuid: uuidv4(),
+          uuid: ingredient.uuid,
         })
       }
     },
