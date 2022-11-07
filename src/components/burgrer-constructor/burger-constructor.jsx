@@ -35,7 +35,7 @@ function BurgerConstructor() {
     )
     return {
       ...serverIngredient,
-      uuid: uuidv4(),
+      uuid: ingredient.uuid,
     }
   })
 
@@ -55,7 +55,7 @@ function BurgerConstructor() {
         dispatch({
           type: ADD_INGREDIENT,
           payload: ingredient._id,
-          uuid: ingredient.uuid,
+          uuid: uuidv4(),
         })
       }
     },

@@ -77,6 +77,7 @@ export const constructorReducer = (state = constructorState, action) => {
       return {
         ...state,
         ingredients: state.ingredients.concat(action.payload),
+        uuid: action.uuid,
       }
     }
     case MOVE_INGREDIENT: {
