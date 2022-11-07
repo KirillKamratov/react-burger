@@ -24,8 +24,8 @@ function Ingredient({ ingredient, onClick }) {
     count = 2
   }
 
-  constructorIngredients.forEach(ingredientId => {
-    if (ingredient._id === ingredientId) {
+  constructorIngredients.forEach(ing => {
+    if (ingredient._id === ing._id) {
       count += 1
     }
   })

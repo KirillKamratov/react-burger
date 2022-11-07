@@ -31,11 +31,11 @@ function BurgerConstructor() {
 
   const ingredients = constructorIngredients.map(ingredient => {
     const serverIngredient = serverIngredients.find(
-      ing => ing._id === ingredient,
+      ing => ing._id === ingredient._id,
     )
     return {
-      ...serverIngredient,
       uuid: ingredient.uuid,
+      ...serverIngredient,
     }
   })
 
@@ -54,8 +54,7 @@ function BurgerConstructor() {
       } else {
         dispatch({
           type: ADD_INGREDIENT,
-          payload: ingredient._id,
-          uuid: uuidv4(),
+          payload: { ...ingredient, uuid: uuidv4() },
         })
       }
     },
@@ -68,12 +67,8 @@ function BurgerConstructor() {
     )
   }, [ingredients, bun])
 
-  const order = []
-
   const openModal = () => {
-    ingredients.forEach(ingredient => {
-      order.push(ingredient._id, bunId, bunId)
-    })
+    const order = [bunId, ...ingredients.map(item => item._id), bunId]
     dispatch(sendOrder(order))
     setIsOrderDetailsOpened(true)
   }
