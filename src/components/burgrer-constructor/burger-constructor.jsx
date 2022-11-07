@@ -68,7 +68,11 @@ function BurgerConstructor() {
   }, [ingredients, bun])
 
   const openModal = () => {
-    const order = [bunId, ...ingredients.map(item => item._id), bunId]
+    const order = [
+      bunId,
+      ...ingredients.map(ingredient => ingredient._id),
+      bunId,
+    ]
     dispatch(sendOrder(order))
     setIsOrderDetailsOpened(true)
   }
