@@ -1,11 +1,12 @@
+import PropTypes from 'prop-types'
 import orderDetailsStyles from './order-details.module.css'
 import checkIcon from '../../images/checkIcon.png'
 
-function OrderDetails() {
+function OrderDetails({ orderNumber }) {
   return (
     <div className={`mt-30 mb-30 ${orderDetailsStyles.wrapper}`}>
       <h2 className='text text_color_primary text_type_digits-large mb-8'>
-        034536
+        {orderNumber}
       </h2>
       <p className='text text_color_primary text_type_main-medium mb-15'>
         идентификатор заказа
@@ -23,6 +24,10 @@ function OrderDetails() {
       </p>
     </div>
   )
+}
+
+OrderDetails.propTypes = {
+  orderNumber: PropTypes.node.isRequired,
 }
 
 export default OrderDetails

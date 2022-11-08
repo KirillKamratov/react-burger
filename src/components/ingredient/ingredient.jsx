@@ -6,12 +6,33 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types'
 import { ingredientPropTypes } from '../../utils/propTypes'
+import { useDrag } from 'react-dnd'
+import { useSelector } from 'react-redux'
 
-function Ingredient({ card, onClick }) {
-  let count
+function Ingredient({ ingredient, onClick }) {
+  const [, dragRef] = useDrag({
+    type: 'ingredients',
+    item: ingredient,
+  })
+  const { ingredients: constructorIngredients, bunId } = useSelector(
+    store => store.burgerConstructor,
+  )
+
+  let count = 0
+
+  if (ingredient._id === bunId) {
+    count = 2
+  }
+
+  constructorIngredients.forEach(ing => {
+    if (ingredient._id === ing._id) {
+      count += 1
+    }
+  })
 
   return (
     <div
+      ref={dragRef}
       className={ingredientStyles.item}
       onClick={onClick}
     >
@@ -22,23 +43,25 @@ function Ingredient({ card, onClick }) {
         />
       )}
       <img
-        src={card.image}
+        src={ingredient.image}
         className={`mt-1 mb-1 ${ingredientStyles.image}`}
-        alt={card.name}
+        alt={ingredient.name}
       />
       <p className={ingredientStyles.price}>
-        <span className='text text_type_digits-default'>{card.price}</span>
+        <span className='text text_type_digits-default'>
+          {ingredient.price}
+        </span>
         <CurrencyIcon type='primary' />
       </p>
       <p className={`${ingredientStyles.text} text text_type_main-default`}>
-        {card.name}
+        {ingredient.name}
       </p>
     </div>
   )
 }
 
 Ingredient.propTypes = {
-  card: ingredientPropTypes.isRequired,
+  ingredient: ingredientPropTypes.isRequired,
   onClick: PropTypes.func.isRequired,
 }
 

@@ -1,33 +1,31 @@
 import React from 'react'
 import AppStyles from './App.module.css'
 import Header from '../header'
-import Main from '../main'
-import { INGREDIENTS_URL } from '../../utils/utils'
+import BurgerIngredients from '../burger-ingredients'
+import BurgerConstructor from '../burgrer-constructor'
+import { useDispatch } from 'react-redux'
+import { getIngredients } from '../../services/actions'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 function App() {
-  const [serverIngredients, setServerIngredients] = React.useState([])
+  const dispatch = useDispatch()
 
   React.useEffect(() => {
-    const isOk = res => {
-      if (res.ok) {
-        return res.json()
-      }
-      return Promise.reject(`Ошибка: ${res.status}`)
-    }
-    const getBurgerIngredients = () => {
-      fetch(INGREDIENTS_URL)
-        .then(isOk)
-        .then(ingredients => {
-          setServerIngredients(ingredients.data)
-        })
-    }
-    getBurgerIngredients()
-  }, [])
+    dispatch(getIngredients())
+  }, [dispatch])
 
   return (
     <div className={`${AppStyles.App}`}>
       <Header />
-      <Main ingredients={serverIngredients} />
+      <DndProvider backend={HTML5Backend}>
+        <main className={AppStyles.main}>
+          <section className={`${AppStyles.constructor}`}>
+            <BurgerIngredients />
+          </section>
+          <BurgerConstructor />
+        </main>
+      </DndProvider>
     </div>
   )
 }
