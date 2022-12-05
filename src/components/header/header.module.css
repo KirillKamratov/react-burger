@@ -28,6 +28,10 @@
   align-self: center;
 }
 
+.link {
+  text-decoration: none;
+}
+
 .item:nth-child(1) {
   justify-self: start;
 }

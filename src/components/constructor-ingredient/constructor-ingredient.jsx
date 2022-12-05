@@ -3,7 +3,10 @@ import {
   ConstructorElement,
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { DELETE_INGREDIENT, MOVE_INGREDIENT } from '../../services/actions'
+import {
+  DELETE_INGREDIENT,
+  MOVE_INGREDIENT,
+} from '../../services/actions/constructor'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useDrag, useDrop } from 'react-dnd'
@@ -33,7 +36,7 @@ const ConstructorIngredient = ({ index, ingredient }) => {
   })
   const opacity = isDragging ? 0 : 1
 
-  const [{ handlerId }, dropRef] = useDrop({
+  const [, dropRef] = useDrop({
     accept: 'ingredient',
     hover(item, monitor) {
       if (!ref.current) {

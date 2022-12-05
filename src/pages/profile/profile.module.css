@@ -1,0 +1,36 @@
+.main {
+  display: flex;
+  justify-content: center;
+  margin-top: 120px;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.link {
+  height: 64px;
+  color: #8585ad;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.active {
+  color: #f2f2f3;
+}
+
+.container {
+  align-self: flex-end;
+}
+
+.info {
+  width: 320px;
+  opacity: .4;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}

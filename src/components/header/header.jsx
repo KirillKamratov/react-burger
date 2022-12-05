@@ -7,6 +7,7 @@ import {
   ListIcon,
   ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Link } from 'react-router-dom'
 
 function Header() {
   return (
@@ -14,12 +15,17 @@ function Header() {
       <nav className={headerStyles.navigation}>
         <ul className={headerStyles.list}>
           <li className={headerStyles.item}>
-            <NavItem
-              type='primary'
-              icon={BurgerIcon}
+            <Link
+              to={'/'}
+              className={headerStyles.link}
             >
-              Конструктор
-            </NavItem>
+              <NavItem
+                type='primary'
+                icon={BurgerIcon}
+              >
+                Конструктор
+              </NavItem>
+            </Link>
             <NavItem
               type='secondary'
               icon={ListIcon}
@@ -31,12 +37,17 @@ function Header() {
             <Logo />
           </li>
           <li className={headerStyles.item}>
-            <NavItem
-              type='secondary'
-              icon={ProfileIcon}
+            <Link
+              to={'/profile'}
+              className={headerStyles.link}
             >
-              Личный кабинет
-            </NavItem>
+              <NavItem
+                type='secondary'
+                icon={ProfileIcon}
+              >
+                Личный кабинет
+              </NavItem>
+            </Link>
           </li>
         </ul>
       </nav>

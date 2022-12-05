@@ -8,8 +8,10 @@ import PropTypes from 'prop-types'
 import { ingredientPropTypes } from '../../utils/propTypes'
 import { useDrag } from 'react-dnd'
 import { useSelector } from 'react-redux'
+import { useLocation, Link } from 'react-router-dom'
 
 function Ingredient({ ingredient, onClick }) {
+  const location = useLocation()
   const [, dragRef] = useDrag({
     type: 'ingredients',
     item: ingredient,
@@ -31,32 +33,40 @@ function Ingredient({ ingredient, onClick }) {
   })
 
   return (
-    <div
+    <li
       ref={dragRef}
       className={ingredientStyles.item}
       onClick={onClick}
     >
-      {count > 0 && (
-        <Counter
-          count={count}
-          size='default'
+      <Link
+        to={{
+          pathname: `ingredients/${ingredient._id}`,
+          state: { background: location },
+        }}
+        className={ingredientStyles.link}
+      >
+        {count > 0 && (
+          <Counter
+            count={count}
+            size='default'
+          />
+        )}
+        <img
+          src={ingredient.image}
+          className={`mt-1 mb-1 ${ingredientStyles.image}`}
+          alt={ingredient.name}
         />
-      )}
-      <img
-        src={ingredient.image}
-        className={`mt-1 mb-1 ${ingredientStyles.image}`}
-        alt={ingredient.name}
-      />
-      <p className={ingredientStyles.price}>
-        <span className='text text_type_digits-default'>
-          {ingredient.price}
-        </span>
-        <CurrencyIcon type='primary' />
-      </p>
-      <p className={`${ingredientStyles.text} text text_type_main-default`}>
-        {ingredient.name}
-      </p>
-    </div>
+        <p className={ingredientStyles.price}>
+          <span className='text text_type_digits-default'>
+            {ingredient.price}
+          </span>
+          <CurrencyIcon type='primary' />
+        </p>
+        <p className={`${ingredientStyles.text} text text_type_main-default`}>
+          {ingredient.name}
+        </p>
+      </Link>
+    </li>
   )
 }
 
