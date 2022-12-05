@@ -8,6 +8,7 @@ import {
   ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link } from 'react-router-dom'
+console.log(window.location.pathname)
 
 function Header() {
   return (
@@ -20,14 +21,16 @@ function Header() {
               className={headerStyles.link}
             >
               <NavItem
-                type='primary'
+                type={
+                  window.location.pathname === '/' ? 'primary' : 'secondary'
+                }
                 icon={BurgerIcon}
               >
                 Конструктор
               </NavItem>
             </Link>
             <NavItem
-              type='secondary'
+              type={'secondary'}
               icon={ListIcon}
             >
               Лента заказов
@@ -42,7 +45,15 @@ function Header() {
               className={headerStyles.link}
             >
               <NavItem
-                type='secondary'
+                type={
+                  window.location.pathname === '/profile' ||
+                  '/login' ||
+                  '/register' ||
+                  '/forgot-password' ||
+                  'reset-password'
+                    ? 'primary'
+                    : 'secondary'
+                }
                 icon={ProfileIcon}
               >
                 Личный кабинет

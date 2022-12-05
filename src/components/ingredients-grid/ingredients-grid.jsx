@@ -28,7 +28,7 @@ const IngredientsGrid = React.forwardRef((props, ref) => {
       >
         {props.text}
       </h2>
-      <ul
+      <div
         className={`mb-10 ${ingredientsGridStyles.grid}`}
         ref={ref}
       >
@@ -50,7 +50,7 @@ const IngredientsGrid = React.forwardRef((props, ref) => {
               />
             )
           })}
-      </ul>
+      </div>
     </>
   )
 })

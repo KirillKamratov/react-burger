@@ -6,14 +6,16 @@ import {
   Button,
   EmailInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, Redirect, useHistory } from 'react-router-dom'
 import { registration } from '../../services/actions/auth'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from '../../utils/utils'
 
 const Register = () => {
   const dispatch = useDispatch()
   const history = useHistory()
+  const { user } = useSelector(state => state.auth)
+  const isAuth = user !== null
 
   const { values, handleChange } = useForm({
     email: '',
@@ -23,9 +25,15 @@ const Register = () => {
 
   const handleSubmit = event => {
     event.preventDefault()
-    dispatch(registration(values)).then(() => {
-      history.push('/profile')
-    })
+    dispatch(registration(values))
+      .then(res => res.ok)
+      .then(() => {
+        history.push('/profile')
+      })
+  }
+
+  if (isAuth) {
+    return <Redirect to={'/'} />
   }
 
   return (

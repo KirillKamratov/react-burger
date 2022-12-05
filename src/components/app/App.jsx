@@ -50,7 +50,6 @@ function App() {
         }
       } else {
         dispatch({ type: AUTH_SUCCESS, payload: userData.user })
-        history.push('/profile')
       }
     }
     auth()
@@ -67,7 +66,7 @@ function App() {
   return (
     <div className={`${AppStyles.App}`}>
       <Header />
-      <Switch>
+      <Switch location={background}>
         <Route
           path='/'
           exact
@@ -104,7 +103,10 @@ function App() {
         >
           <Profile />
         </ProtectedRoute>
-        <ProtectedRoute path={'/profile/orders'}>
+        <ProtectedRoute
+          exact
+          path={'/profile/orders'}
+        >
           <Orders />
         </ProtectedRoute>
         <Route
@@ -114,7 +116,6 @@ function App() {
           <Ingredient />
         </Route>
       </Switch>
-
       {background && (
         <Route path='/ingredients/:id'>
           <Modal closeModal={closeIngredientModal}>

@@ -8,11 +8,12 @@ function IngredientDetails() {
   const currentIngredient = ingredients.find(
     ingredient => ingredient._id === id,
   )
-  console.log(id, currentIngredient)
   return (
     currentIngredient && (
       <>
-        <h2 className='text text_type_main-large mt-15 ml-10 mr-10'>
+        <h2
+          className={`${ingredientDetailsStyles.title} text text_type_main-large mt-15 ml-10 mr-10`}
+        >
           Детали ингредиента
         </h2>
         <div className={ingredientDetailsStyles.ingredient}>

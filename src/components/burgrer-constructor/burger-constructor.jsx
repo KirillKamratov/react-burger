@@ -19,6 +19,7 @@ import { useDrop } from 'react-dnd'
 import { selectIngredients } from '../../services/reducers'
 import ConstructorIngredient from '../constructor-ingredient'
 import { INGREDIENT_TYPES } from '../../utils/utils'
+import { useHistory } from 'react-router-dom'
 
 function BurgerConstructor() {
   const dispatch = useDispatch()
@@ -29,6 +30,8 @@ function BurgerConstructor() {
   const { ingredients: constructorIngredients, bunId } = useSelector(
     store => store.burgerConstructor,
   )
+
+  const history = useHistory()
 
   const ingredients = constructorIngredients.map(ingredient => {
     const serverIngredient = serverIngredients.find(
@@ -69,13 +72,17 @@ function BurgerConstructor() {
   }, [ingredients, bun])
 
   const openModal = () => {
-    const order = [
-      bunId,
-      ...ingredients.map(ingredient => ingredient._id),
-      bunId,
-    ]
-    dispatch(sendOrder(order))
-    setIsOrderDetailsOpened(true)
+    if (!user) {
+      history.replace('/login')
+    } else {
+      const order = [
+        bunId,
+        ...ingredients.map(ingredient => ingredient._id),
+        bunId,
+      ]
+      dispatch(sendOrder(order))
+      setIsOrderDetailsOpened(true)
+    }
   }
 
   const closeModal = () => {
@@ -146,6 +153,7 @@ function BurgerConstructor() {
           htmlType='button'
           type='primary'
           size='large'
+          disabled={!bunId}
         >
           {user ? 'Оформить заказ' : 'Вход'}
         </Button>

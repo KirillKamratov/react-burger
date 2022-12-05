@@ -3,14 +3,16 @@ import {
   Button,
   EmailInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { Link, Redirect } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import React from 'react'
 import { forgotPassword } from '../../services/actions/forgotPassword'
 import { useForm } from '../../utils/utils'
 
 const ForgotPassword = () => {
   const dispatch = useDispatch()
+  const { user } = useSelector(state => state.auth)
+  const isAuth = user !== null
 
   const { values, handleChange } = useForm({
     email: '',
@@ -19,6 +21,10 @@ const ForgotPassword = () => {
   const handleSubmit = event => {
     event.preventDefault()
     dispatch(forgotPassword(values))
+  }
+
+  if (isAuth) {
+    return <Redirect to={'/'} />
   }
 
   return (

@@ -4,6 +4,10 @@
   align-items: center;
 }
 
+.title {
+  text-align: center;
+}
+
 .list {
   display: flex;
   padding-left: 0;

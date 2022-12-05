@@ -33,7 +33,7 @@ function Ingredient({ ingredient, onClick }) {
   })
 
   return (
-    <li
+    <div
       ref={dragRef}
       className={ingredientStyles.item}
       onClick={onClick}
@@ -66,7 +66,7 @@ function Ingredient({ ingredient, onClick }) {
           {ingredient.name}
         </p>
       </Link>
-    </li>
+    </div>
   )
 }
 

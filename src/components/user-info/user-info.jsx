@@ -14,13 +14,12 @@ import { USER_UPDATED } from '../../services/actions/auth'
 
 const UserInfo = () => {
   const dispatch = useDispatch()
-
   const { user } = useSelector(state => state.auth)
 
   const initialValues = {
     email: user.email,
     name: user.name,
-    password: '******',
+    password: '',
   }
 
   const { values, handleChange, setValues } = useForm(initialValues)
@@ -29,6 +28,9 @@ const UserInfo = () => {
     values.name !== initialValues.name ||
     values.password !== initialValues.password ||
     values.email !== initialValues.email
+
+  const valuesIsNotEmpty =
+    values.name !== '' && values.password !== '' && values.email !== ''
 
   React.useEffect(() => {
     if (user.name && user.email) {
@@ -56,9 +58,13 @@ const UserInfo = () => {
         'Content-Type': 'application/json',
         Authorization: getAccessToken(),
       },
-      body: JSON.stringify({ name: values.name, email: values.email }),
+      body: JSON.stringify({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      }),
     })
-      .then(res => res.json())
+      .then(res => res.ok)
       .then(data => {
         dispatch({
           type: USER_UPDATED,
@@ -66,6 +72,7 @@ const UserInfo = () => {
         })
       })
   }
+
   return (
     <form
       className={userInfoStyles.form}
@@ -92,7 +99,7 @@ const UserInfo = () => {
         onChange={handleChange}
         icon={'EditIcon'}
       />
-      {isValuesEdited && (
+      {isValuesEdited && valuesIsNotEmpty && (
         <div className={userInfoStyles.container}>
           <Button
             htmlType={'button'}

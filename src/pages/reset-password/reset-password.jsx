@@ -4,22 +4,34 @@ import {
   Input,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { Link, Redirect, useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { resetPassword } from '../../services/actions/resetPassword'
 import { useForm } from '../../utils/utils'
+import React from 'react'
 
 const ResetPassword = () => {
   const dispatch = useDispatch()
+  const { user } = useSelector(state => state.auth)
+  const history = useHistory()
 
   const { values, handleChange } = useForm({
     password: '',
     passcode: '',
   })
+  const isAuth = user !== null
 
   const handleSubmit = event => {
     event.preventDefault()
     dispatch(resetPassword(values))
+  }
+
+  if (isAuth) {
+    return <Redirect to={'/'} />
+  }
+
+  if (history.location?.state !== 'reset-password') {
+    return <Redirect to={'/'} />
   }
 
   return (

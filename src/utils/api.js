@@ -21,7 +21,7 @@ export function fetchToken(refreshToken) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ token: refreshToken }),
-  }).then(res => res.json())
+  }).then(res => res.ok)
 }
 
 export function fetchUser(accessToken) {
@@ -30,5 +30,5 @@ export function fetchUser(accessToken) {
       'Content-type': 'application/json',
       Authorization: accessToken,
     },
-  }).then(res => res.json())
+  }).then(res => res.ok)
 }
