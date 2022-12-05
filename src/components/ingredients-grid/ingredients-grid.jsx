@@ -2,21 +2,13 @@ import { INGREDIENT_TYPES } from '../../utils/utils'
 import React from 'react'
 import ingredientsGridStyles from './ingredients-grid.module.css'
 import Ingredient from '../ingredient'
-import Modal from '../modal'
-import IngredientDetails from '../ingredient-details'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectIngredients } from '../../services/reducers'
-import {
-  HIDE_INGREDIENT_DETAILS,
-  SHOW_INGREDIENT_DETAILS,
-} from '../../services/actions'
+import { SHOW_INGREDIENT_DETAILS } from '../../services/actions/ingredient'
 
 const IngredientsGrid = React.forwardRef((props, ref) => {
   const dispatch = useDispatch()
   const ingredients = useSelector(selectIngredients)
-  const clickedIngredientId = useSelector(
-    store => store.ingredientDetails.clickedIngredientID,
-  )
 
   const buns = React.useMemo(() => {
     return ingredients.filter(item => item.type === INGREDIENT_TYPES.BUN)
@@ -36,7 +28,7 @@ const IngredientsGrid = React.forwardRef((props, ref) => {
       >
         {props.text}
       </h2>
-      <div
+      <ul
         className={`mb-10 ${ingredientsGridStyles.grid}`}
         ref={ref}
       >
@@ -58,20 +50,7 @@ const IngredientsGrid = React.forwardRef((props, ref) => {
               />
             )
           })}
-      </div>
-      {clickedIngredientId != null && (
-        <Modal
-          closeModal={() => {
-            dispatch({ type: HIDE_INGREDIENT_DETAILS })
-          }}
-        >
-          <IngredientDetails
-            ingredient={ingredients.find(item => {
-              return item._id === clickedIngredientId
-            })}
-          />
-        </Modal>
-      )}
+      </ul>
     </>
   )
 })

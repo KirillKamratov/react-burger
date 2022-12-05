@@ -7,15 +7,12 @@ function NavItem({ icon, type, children }) {
   const textColorType =
     type === 'primary' ? 'text_color_primary' : 'text_color_inactive'
   return (
-    <a
-      className={`pt-4 pr-5 pb-4 pl-5 ${navItemStyles.item}`}
-      href='#'
-    >
+    <div className={`pt-4 pr-5 pb-4 pl-5 ${navItemStyles.item}`}>
       <Icon type={type} />
       <p className={`text text_type_main-default ${textColorType} ml-2`}>
         {children}
       </p>
-    </a>
+    </div>
   )
 }
 

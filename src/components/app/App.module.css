@@ -2,17 +2,3 @@
   min-height: 100vh;
   background: #131316;
 }
-
-.main {
-  display: flex;
-  flex-direction: row;
-  gap: 40px;
-  width: 100%;
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: 0 100px;
-}
-
-.constructor {
-  overflow: hidden;
-}

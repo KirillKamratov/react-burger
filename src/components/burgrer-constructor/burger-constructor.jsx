@@ -13,8 +13,8 @@ import {
   ADD_BUN,
   ADD_INGREDIENT,
   RESET_CONSTRUCTOR,
-  sendOrder,
-} from '../../services/actions'
+} from '../../services/actions/constructor'
+import { sendOrder } from '../../services/actions/orderDetails'
 import { useDrop } from 'react-dnd'
 import { selectIngredients } from '../../services/reducers'
 import ConstructorIngredient from '../constructor-ingredient'
@@ -23,6 +23,7 @@ import { INGREDIENT_TYPES } from '../../utils/utils'
 function BurgerConstructor() {
   const dispatch = useDispatch()
   const [isOrderDetailsOpened, setIsOrderDetailsOpened] = React.useState(false)
+  const { user } = useSelector(store => store.auth)
   const orderNumber = useSelector(store => store.orderDetails.orderNumber)
   const serverIngredients = useSelector(selectIngredients)
   const { ingredients: constructorIngredients, bunId } = useSelector(
@@ -146,7 +147,7 @@ function BurgerConstructor() {
           type='primary'
           size='large'
         >
-          Оформить заказ
+          {user ? 'Оформить заказ' : 'Вход'}
         </Button>
         {isOrderDetailsOpened && (
           <Modal closeModal={closeModal}>

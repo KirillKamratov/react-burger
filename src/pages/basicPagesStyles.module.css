@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  justify-content: center;
+  margin-top: 120px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 120px;
+}
+
+.link {
+  color: #4c4cff;
+  text-decoration: none;
+}
+
