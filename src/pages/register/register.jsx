@@ -6,14 +6,16 @@ import {
   Button,
   EmailInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { Link, Redirect, useHistory } from 'react-router-dom'
+import { Link, Redirect, useHistory, useLocation } from 'react-router-dom'
 import { registration } from '../../services/actions/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from '../../utils/utils'
+import { isOk } from '../../utils/api'
 
 const Register = () => {
   const dispatch = useDispatch()
   const history = useHistory()
+  const location = useLocation()
   const { user } = useSelector(state => state.auth)
   const isAuth = user !== null
 
@@ -26,9 +28,9 @@ const Register = () => {
   const handleSubmit = event => {
     event.preventDefault()
     dispatch(registration(values))
-      .then(res => res.ok)
+      .then(isOk)
       .then(() => {
-        history.push('/profile')
+        history.push(location.state?.from || '/')
       })
   }
 

@@ -8,7 +8,6 @@ import {
   ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link } from 'react-router-dom'
-console.log(window.location.pathname)
 
 function Header() {
   return (
@@ -46,11 +45,7 @@ function Header() {
             >
               <NavItem
                 type={
-                  window.location.pathname === '/profile' ||
-                  '/login' ||
-                  '/register' ||
-                  '/forgot-password' ||
-                  'reset-password'
+                  window.location.pathname.startsWith('/profile')
                     ? 'primary'
                     : 'secondary'
                 }

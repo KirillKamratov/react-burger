@@ -4,8 +4,8 @@ import {
   EmailInput,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { Link, Redirect, useHistory, useLocation } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { Link, useHistory, useLocation } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import React from 'react'
 import { login } from '../../services/actions/auth'
 import { useForm } from '../../utils/utils'
@@ -14,8 +14,6 @@ export const Login = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const location = useLocation()
-  const { user } = useSelector(state => state.auth)
-  const isAuth = user != null
 
   const { values, handleChange } = useForm({
     email: '',
@@ -25,13 +23,13 @@ export const Login = () => {
   const handleSubmit = event => {
     event.preventDefault()
     dispatch(login(values)).then(() => {
-      history.push('/profile')
+      history.push(location.state?.from || '/')
     })
   }
 
-  if (isAuth) {
-    return <Redirect to={location.state?.from || '/'} />
-  }
+  // if (isAuth) {
+  //   return <Redirect to={location.state?.from || '/'} />
+  // }
 
   return (
     <div className={basicPagesStyles.main}>

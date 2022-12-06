@@ -8,7 +8,7 @@ import {
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from '../../utils/utils'
-import { USER_URL } from '../../utils/api'
+import { isOk, USER_URL } from '../../utils/api'
 import { getAccessToken } from '../../utils/auth'
 import { USER_UPDATED } from '../../services/actions/auth'
 
@@ -29,8 +29,7 @@ const UserInfo = () => {
     values.password !== initialValues.password ||
     values.email !== initialValues.email
 
-  const valuesIsNotEmpty =
-    values.name !== '' && values.password !== '' && values.email !== ''
+  const valuesIsNotEmpty = values.name !== '' && values.email !== ''
 
   React.useEffect(() => {
     if (user.name && user.email) {
@@ -64,7 +63,7 @@ const UserInfo = () => {
         password: values.password,
       }),
     })
-      .then(res => res.ok)
+      .then(isOk)
       .then(data => {
         dispatch({
           type: USER_UPDATED,

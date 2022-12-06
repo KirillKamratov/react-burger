@@ -1,6 +1,6 @@
-import ordersHistoryStyles from './orders-history.module.css'
+import React from 'react'
 
-const OrdersHistory = props => {
+const OrdersHistory = () => {
   return <div></div>
 }
 
