@@ -27,10 +27,6 @@ export const Login = () => {
     })
   }
 
-  // if (isAuth) {
-  //   return <Redirect to={location.state?.from || '/'} />
-  // }
-
   return (
     <div className={basicPagesStyles.main}>
       <form
