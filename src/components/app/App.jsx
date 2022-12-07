@@ -66,7 +66,7 @@ function App() {
   return (
     <div className={`${AppStyles.App}`}>
       <Header />
-      <Switch location={background}>
+      <Switch location={background || location}>
         <Route
           path='/'
           exact
