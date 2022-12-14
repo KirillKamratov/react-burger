@@ -6,6 +6,7 @@ import Ingredient from './ingredient'
 import HomePage from './home-page'
 import ResetPassword from './reset-password'
 import Orders from './orders/orders'
+import Feed from './feed'
 export {
   Register,
   Login,
@@ -15,4 +16,5 @@ export {
   HomePage,
   ResetPassword,
   Orders,
+  Feed,
 }

@@ -44,7 +44,9 @@ const AccountMenu = () => {
         <p
           className={`mt-20 text text_type_main-default text_color_inactive ${accountMenuStyles.info}`}
         >
-          В&nbsp;этом разделе вы&nbsp;можете изменить свои персональные данные
+          {window.location.pathname.includes('/orders')
+            ? 'В этом разделе вы можете просмотреть свою историю заказов'
+            : 'В этом разделе вы можете изменить свои персональные данные'}
         </p>
       </nav>
     </section>

@@ -28,12 +28,21 @@ function Header() {
                 Конструктор
               </NavItem>
             </Link>
-            <NavItem
-              type={'secondary'}
-              icon={ListIcon}
+            <Link
+              to={'feed'}
+              className={headerStyles.link}
             >
-              Лента заказов
-            </NavItem>
+              <NavItem
+                type={
+                  window.location.pathname.startsWith('/feed')
+                    ? 'primary'
+                    : 'secondary'
+                }
+                icon={ListIcon}
+              >
+                Лента заказов
+              </NavItem>
+            </Link>
           </li>
           <li className={headerStyles.item}>
             <Logo />

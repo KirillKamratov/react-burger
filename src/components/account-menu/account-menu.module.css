@@ -1,12 +1,13 @@
 .main {
   display: flex;
   justify-content: center;
-  margin-top: 120px;
 }
+
 
 .menu {
   display: flex;
   flex-direction: column;
+  margin-top: 120px;
 }
 
 .link {

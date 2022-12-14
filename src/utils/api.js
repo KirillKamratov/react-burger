@@ -8,6 +8,7 @@ export const REGISTRATION_URL = `${BASE_API_URL}/auth/register`
 export const LOGOUT_URL = `${BASE_API_URL}/auth/logout`
 export const TOKEN_URL = `${BASE_API_URL}/auth/token`
 export const USER_URL = `${BASE_API_URL}/auth/user`
+export const wsUrl = 'wss://norma.nomoreparties.space/orders'
 
 export const isOk = res => {
   if (res.ok) {
