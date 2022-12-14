@@ -16,7 +16,6 @@ const Feed = () => {
   React.useEffect(() => {
     dispatch({
       type: WS_CONNECTION_START,
-      user: false,
     })
     return () => {
       dispatch({ type: WS_CONNECTION_CLOSED })
