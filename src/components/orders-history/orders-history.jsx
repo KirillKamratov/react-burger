@@ -3,20 +3,19 @@ import ordersHistoryStyles from './orders-history.module.css'
 import Order from '../order'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  WS_CONNECTION_START,
-  WS_CONNECTION_CLOSED,
+  closeWebSocket,
+  startWebSocketWithToken,
 } from '../../services/actions/webSocket'
+import { getAccessToken } from '../../utils/auth'
 
 const OrdersHistory = () => {
   const { orders } = useSelector(state => state.webSocket)
   const dispatch = useDispatch()
 
   React.useEffect(() => {
-    dispatch({
-      type: WS_CONNECTION_START,
-    })
+    dispatch(startWebSocketWithToken(getAccessToken().split('Bearer ')[1]))
     return () => {
-      dispatch({ type: WS_CONNECTION_CLOSED })
+      dispatch(closeWebSocket())
     }
   }, [dispatch])
 

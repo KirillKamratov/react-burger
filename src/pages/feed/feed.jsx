@@ -2,23 +2,21 @@ import feedStyles from './feed.module.css'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import {
-  WS_CONNECTION_START,
-  WS_CONNECTION_CLOSED,
-} from '../../services/actions/webSocket'
 import Order from '../../components/order'
 import StatusScreen from '../../components/status-screen'
+import {
+  closeWebSocket,
+  startWebSocket,
+} from '../../services/actions/webSocket'
 
 const Feed = () => {
   const { orders } = useSelector(state => state.webSocket)
   const dispatch = useDispatch()
 
   React.useEffect(() => {
-    dispatch({
-      type: WS_CONNECTION_START,
-    })
+    dispatch(startWebSocket())
     return () => {
-      dispatch({ type: WS_CONNECTION_CLOSED })
+      dispatch(closeWebSocket())
     }
   }, [dispatch])
 
