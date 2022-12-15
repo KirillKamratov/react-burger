@@ -5,7 +5,7 @@ import {
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, useHistory, useLocation } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import React from 'react'
 import { login } from '../../services/actions/auth'
 import { useForm } from '../../utils/utils'
@@ -14,6 +14,7 @@ export const Login = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const location = useLocation()
+  const { user } = useSelector(store => store.auth)
 
   const { values, handleChange } = useForm({
     email: '',
@@ -25,6 +26,10 @@ export const Login = () => {
     dispatch(login(values)).then(() => {
       history.push(location.state?.from || '/')
     })
+  }
+
+  if (user) {
+    history.push(location.state?.from || '/')
   }
 
   return (

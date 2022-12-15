@@ -6,10 +6,12 @@ import {
   FormattedDate,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { INGREDIENT_TYPES } from '../../utils/utils'
+import React from 'react'
 
 const OrderInfo = () => {
   const { orders } = useSelector(state => state.webSocket)
   const { id } = useParams()
+
   const chosenOrder = orders.find(ingredient => ingredient._id === id)
   const ingredientsFromServer = useSelector(
     state => state.ingredients.ingredients,
@@ -26,8 +28,6 @@ const OrderInfo = () => {
     ingredientsInOrder.forEach(v => v._id === value && count++)
     return count
   }
-
-  console.log(ingredientsInOrder)
 
   const ordersStatus = orderStatus => {
     if (orderStatus === 'done') {
