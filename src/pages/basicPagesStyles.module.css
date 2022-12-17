@@ -3,11 +3,6 @@
   justify-content: center;
 }
 
-.orders {
-  display: flex;
-  padding-left: 290px;
-}
-
 .form {
   display: flex;
   flex-direction: column;

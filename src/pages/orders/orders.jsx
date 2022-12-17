@@ -5,7 +5,7 @@ import basicPagesStyles from '../basicPagesStyles.module.css'
 
 const Orders = () => {
   return (
-    <main className={basicPagesStyles.orders}>
+    <main className={basicPagesStyles.container}>
       <AccountMenu />
       <OrdersHistory />
     </main>
