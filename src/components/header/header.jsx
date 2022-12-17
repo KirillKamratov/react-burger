@@ -47,7 +47,12 @@ function Header() {
             </Link>
           </li>
           <li className={headerStyles.item}>
-            <Logo />
+            <Link
+              to={'/react-burger'}
+              className={headerStyles.link}
+            >
+              <Logo />
+            </Link>
           </li>
           <li className={headerStyles.item}>
             <Link

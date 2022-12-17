@@ -67,19 +67,18 @@ const OrderInfo = ({ inModal }) => {
   )
 
   return (
-    <div
-      className={`${orderInfoStyles.container} ${
-        !inModal ? `${orderInfoStyles.self}` : ``
-      }`}
-    >
+    <div className={`${orderInfoStyles.container}`}>
       <p
-        className={`${
-          !inModal ? `${orderInfoStyles.header}` : ``
+        className={`${!inModal ? `${orderInfoStyles.header}` : ``}
         } text text_type_digits-default mb-10`}
       >
         #{chosenOrder?.number}
       </p>
-      <h1 className={`text text_type_main-medium mb-3`}>{chosenOrder?.name}</h1>
+      <h1
+        className={` ${orderInfoStyles.name} text text_type_main-medium mb-3`}
+      >
+        {chosenOrder?.name}
+      </h1>
       <p
         className={`${
           chosenOrder?.status === 'done' ? `${orderInfoStyles?.done}` : ``
