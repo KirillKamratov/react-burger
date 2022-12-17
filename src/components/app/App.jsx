@@ -48,7 +48,6 @@ function App() {
         if (!tokenData.success) {
           removeAccessToken()
           removeRefreshToken()
-          dispatch({ type: LOGOUT_SUCCESS })
           history.push('/login')
         } else {
           setAccessToken(tokenData.accessToken)
