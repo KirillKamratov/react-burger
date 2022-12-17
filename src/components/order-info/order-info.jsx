@@ -7,17 +7,38 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { INGREDIENT_TYPES } from '../../utils/utils'
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import {
+  startWebSocket,
+  closeWebSocket,
+  startWebSocketWithToken,
+} from '../../services/actions/webSocket'
+import { getAccessToken } from '../../utils/auth'
+import { useHistory } from 'react-router-dom'
 
-const OrderInfo = () => {
+const OrderInfo = ({ inModal }) => {
   const { orders } = useSelector(state => state.webSocket)
   const { id } = useParams()
+  const dispatch = useDispatch()
+  const history = useHistory()
+
+  React.useEffect(() => {
+    if (history.location.pathname.includes('/feed')) {
+      dispatch(startWebSocket())
+    } else if (history.location.pathname.includes('/profile')) {
+      dispatch(startWebSocketWithToken(getAccessToken().split('Bearer ')[1]))
+    }
+    return () => {
+      dispatch(closeWebSocket())
+    }
+  }, [dispatch])
 
   const chosenOrder = orders.find(ingredient => ingredient._id === id)
   const ingredientsFromServer = useSelector(
     state => state.ingredients.ingredients,
   )
 
-  const ingredientsInOrder = chosenOrder.ingredients.map(id =>
+  const ingredientsInOrder = chosenOrder?.ingredients.map(id =>
     ingredientsFromServer.find(ingredient => ingredient._id === id),
   )
 
@@ -29,17 +50,17 @@ const OrderInfo = () => {
     return count
   }
 
-  const ordersStatus = orderStatus => {
-    if (orderStatus === 'done') {
+  const ordersStatus = status => {
+    if (status === 'done') {
       return 'Выполнен'
-    } else if (orderStatus === 'pending') {
+    } else if (status === 'pending') {
       return 'Готовится'
-    } else if (orderStatus === 'created') {
+    } else if (status === 'created') {
       return 'Создан'
     }
   }
 
-  const summary = ingredientsInOrder.reduce(
+  const summary = ingredientsInOrder?.reduce(
     (total, ing) =>
       total + (ing.type === INGREDIENT_TYPES.BUN ? ing.price * 2 : ing.price),
     0,
@@ -47,20 +68,24 @@ const OrderInfo = () => {
 
   return (
     <div className={orderInfoStyles.container}>
-      <p className={`text text_type_digits-default mb-10`}>
-        #{chosenOrder.number}
-      </p>
-      <h1 className={`text text_type_main-medium mb-3`}>{chosenOrder.name}</h1>
       <p
         className={`${
-          chosenOrder.status === 'done' ? `${orderInfoStyles.done}` : ``
+          inModal ? `${orderInfoStyles.header}` : ``
+        } text text_type_digits-default mb-10`}
+      >
+        #{chosenOrder?.number}
+      </p>
+      <h1 className={`text text_type_main-medium mb-3`}>{chosenOrder?.name}</h1>
+      <p
+        className={`${
+          chosenOrder?.status === 'done' ? `${orderInfoStyles?.done}` : ``
         } text text_type_main-default mb-15`}
       >
-        {ordersStatus(chosenOrder.status)}
+        {ordersStatus(chosenOrder?.status)}
       </p>
       <p className={`text text text_type_main-medium mb-6 mr-6`}>Состав:</p>
       <ul className={`${orderInfoStyles.list} mb-10`}>
-        {orderWithUniqueIngredients.map((ingredient, index) => {
+        {orderWithUniqueIngredients?.map((ingredient, index) => {
           return (
             <li
               className={orderInfoStyles.item}
@@ -93,7 +118,7 @@ const OrderInfo = () => {
       <div className={`${orderInfoStyles.footer}`}>
         <FormattedDate
           className={`text text_type_main-default text_color_inactive`}
-          date={new Date(chosenOrder.createdAt)}
+          date={new Date(chosenOrder?.createdAt)}
         />
         <span className={`${orderInfoStyles.total} text_type_digits-default`}>
           <p className={`${orderInfoStyles.price}`}>{summary}</p>

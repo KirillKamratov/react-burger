@@ -16,12 +16,14 @@ function Header() {
         <ul className={headerStyles.list}>
           <li className={headerStyles.item}>
             <Link
-              to={'/'}
+              to={'/react-burger'}
               className={headerStyles.link}
             >
               <NavItem
                 type={
-                  window.location.pathname === '/' ? 'primary' : 'secondary'
+                  window.location.pathname === '/react-burger'
+                    ? 'primary'
+                    : 'secondary'
                 }
                 icon={BurgerIcon}
               >
@@ -29,7 +31,7 @@ function Header() {
               </NavItem>
             </Link>
             <Link
-              to={'feed'}
+              to={'/feed'}
               className={headerStyles.link}
             >
               <NavItem

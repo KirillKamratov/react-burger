@@ -1,7 +1,7 @@
 import { LOGOUT_SUCCESS, AUTH_SUCCESS, USER_UPDATED } from '../actions/auth'
 
 const authInitialState = {
-  user: null,
+  user: undefined,
 }
 
 export const authReducer = (state = authInitialState, action) => {

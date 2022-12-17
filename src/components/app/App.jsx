@@ -24,7 +24,7 @@ import {
   removeAccessToken,
   removeRefreshToken,
 } from '../../utils/auth'
-import { AUTH_SUCCESS } from '../../services/actions/auth'
+import { AUTH_SUCCESS, LOGOUT_SUCCESS } from '../../services/actions/auth'
 import { fetchToken, fetchUser } from '../../utils/api'
 import IngredientDetails from '../ingredient-details'
 import OrderInfo from '../order-info'
@@ -38,13 +38,17 @@ function App() {
   React.useEffect(() => {
     async function auth() {
       const accessToken = getAccessToken()
-      if (!accessToken) return
+      if (!accessToken) {
+        dispatch({ type: LOGOUT_SUCCESS })
+        return
+      }
       const userData = await fetchUser(accessToken)
       if (!userData.success) {
         const tokenData = await fetchToken(getRefreshToken())
         if (!tokenData.success) {
           removeAccessToken()
           removeRefreshToken()
+          dispatch({ type: LOGOUT_SUCCESS })
           history.push('/login')
         } else {
           setAccessToken(tokenData.accessToken)
@@ -70,7 +74,7 @@ function App() {
       <Header />
       <Switch location={background || location}>
         <Route
-          path='/'
+          path='/react-burger'
           exact
         >
           <HomePage />
@@ -115,7 +119,7 @@ function App() {
           exact
           path={'/feed/:id'}
         >
-          <OrderInfo />
+          <OrderInfo inModal={false} />
         </Route>
         <ProtectedRoute
           path='/profile'
@@ -133,7 +137,7 @@ function App() {
           exact
           path={'/profile/orders/:id'}
         >
-          <OrderInfo />
+          <OrderInfo inModal={false} />
         </ProtectedRoute>
       </Switch>
       {background && (
@@ -151,17 +155,17 @@ function App() {
             path={'/feed/:id'}
           >
             <Modal closeModal={closeModal}>
-              <OrderInfo />
+              <OrderInfo inModal={true} />
             </Modal>
           </Route>
-          <Route
+          <ProtectedRoute
             exact
             path={'/profile/orders/:id'}
           >
             <Modal closeModal={closeModal}>
-              <OrderInfo />
+              <OrderInfo inModal={true} />
             </Modal>
-          </Route>
+          </ProtectedRoute>
         </Switch>
       )}
     </div>
