@@ -1,4 +1,5 @@
 import orderInfoStyles from './order-info.module.css'
+import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import {
@@ -130,6 +131,10 @@ const OrderInfo = ({ inModal }) => {
       </div>
     </div>
   )
+}
+
+OrderInfo.propTypes = {
+  inModal: PropTypes.bool.isRequired,
 }
 
 export default OrderInfo
