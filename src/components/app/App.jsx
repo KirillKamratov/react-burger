@@ -14,6 +14,7 @@ import {
   HomePage,
   ResetPassword,
   Orders,
+  Feed,
 } from '../../pages'
 import { ProtectedRoute } from '../protected-route/protected-route'
 import {
@@ -23,9 +24,10 @@ import {
   removeAccessToken,
   removeRefreshToken,
 } from '../../utils/auth'
-import { AUTH_SUCCESS } from '../../services/actions/auth'
+import { AUTH_SUCCESS, LOGOUT_SUCCESS } from '../../services/actions/auth'
 import { fetchToken, fetchUser } from '../../utils/api'
 import IngredientDetails from '../ingredient-details'
+import OrderInfo from '../order-info'
 
 function App() {
   const dispatch = useDispatch()
@@ -36,7 +38,10 @@ function App() {
   React.useEffect(() => {
     async function auth() {
       const accessToken = getAccessToken()
-      if (!accessToken) return
+      if (!accessToken) {
+        dispatch({ type: LOGOUT_SUCCESS })
+        return
+      }
       const userData = await fetchUser(accessToken)
       if (!userData.success) {
         const tokenData = await fetchToken(getRefreshToken())
@@ -59,7 +64,7 @@ function App() {
     dispatch(getIngredients())
   }, [dispatch])
 
-  const closeIngredientModal = () => {
+  const closeModal = () => {
     history.goBack()
   }
 
@@ -68,7 +73,7 @@ function App() {
       <Header />
       <Switch location={background || location}>
         <Route
-          path='/'
+          path='/react-burger'
           exact
         >
           <HomePage />
@@ -97,6 +102,24 @@ function App() {
         >
           <ResetPassword />
         </Route>
+        <Route
+          path='/ingredients/:id'
+          exact
+        >
+          <Ingredient />
+        </Route>
+        <Route
+          exact
+          path={'/feed'}
+        >
+          <Feed />
+        </Route>
+        <Route
+          exact
+          path={'/feed/:id'}
+        >
+          <OrderInfo inModal={false} />
+        </Route>
         <ProtectedRoute
           path='/profile'
           exact
@@ -105,23 +128,44 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute
           exact
-          path={'/profile/orders'}
+          path='/profile/orders'
         >
           <Orders />
         </ProtectedRoute>
-        <Route
-          path='/ingredients/:id'
+        <ProtectedRoute
           exact
+          path={'/profile/orders/:id'}
         >
-          <Ingredient />
-        </Route>
+          <OrderInfo inModal={false} />
+        </ProtectedRoute>
       </Switch>
       {background && (
-        <Route path='/ingredients/:id'>
-          <Modal closeModal={closeIngredientModal}>
-            <IngredientDetails />
-          </Modal>
-        </Route>
+        <Switch>
+          <Route
+            exact
+            path='/ingredients/:id'
+          >
+            <Modal closeModal={closeModal}>
+              <IngredientDetails />
+            </Modal>
+          </Route>
+          <Route
+            exact
+            path={'/feed/:id'}
+          >
+            <Modal closeModal={closeModal}>
+              <OrderInfo inModal={true} />
+            </Modal>
+          </Route>
+          <ProtectedRoute
+            exact
+            path={'/profile/orders/:id'}
+          >
+            <Modal closeModal={closeModal}>
+              <OrderInfo inModal={true} />
+            </Modal>
+          </ProtectedRoute>
+        </Switch>
       )}
     </div>
   )

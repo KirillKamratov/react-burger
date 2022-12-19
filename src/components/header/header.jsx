@@ -16,27 +16,43 @@ function Header() {
         <ul className={headerStyles.list}>
           <li className={headerStyles.item}>
             <Link
-              to={'/'}
+              to={'/react-burger'}
               className={headerStyles.link}
             >
               <NavItem
                 type={
-                  window.location.pathname === '/' ? 'primary' : 'secondary'
+                  window.location.pathname === '/react-burger'
+                    ? 'primary'
+                    : 'secondary'
                 }
                 icon={BurgerIcon}
               >
                 Конструктор
               </NavItem>
             </Link>
-            <NavItem
-              type={'secondary'}
-              icon={ListIcon}
+            <Link
+              to={'/feed'}
+              className={headerStyles.link}
             >
-              Лента заказов
-            </NavItem>
+              <NavItem
+                type={
+                  window.location.pathname.startsWith('/feed')
+                    ? 'primary'
+                    : 'secondary'
+                }
+                icon={ListIcon}
+              >
+                Лента заказов
+              </NavItem>
+            </Link>
           </li>
           <li className={headerStyles.item}>
-            <Logo />
+            <Link
+              to={'/react-burger'}
+              className={headerStyles.link}
+            >
+              <Logo />
+            </Link>
           </li>
           <li className={headerStyles.item}>
             <Link

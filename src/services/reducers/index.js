@@ -6,6 +6,7 @@ import { orderDetailsReducer } from './orderDetails'
 import { forgotPasswordReducer } from './forgotPassword'
 import { resetPasswordReducer } from './resetPassword'
 import { authReducer } from './auth'
+import { wsReducer } from './wsReducer'
 
 export const selectIngredients = store => store.ingredients.ingredients
 
@@ -17,4 +18,5 @@ export const rootReducer = combineReducers({
   forgotPassword: forgotPasswordReducer,
   resetPassword: resetPasswordReducer,
   auth: authReducer,
+  webSocket: wsReducer,
 })

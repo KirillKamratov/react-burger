@@ -23,7 +23,7 @@ export const Login = () => {
   const handleSubmit = event => {
     event.preventDefault()
     dispatch(login(values)).then(() => {
-      history.push(location.state?.from || '/')
+      history.push(location.state?.from || '/react-burger')
     })
   }
 

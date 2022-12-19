@@ -1,10 +1,10 @@
 import AccountMenu from '../../components/account-menu'
 import UserInfo from '../../components/user-info'
-import basicPagesStyles from '../basicPagesStyles.module.css'
+import profileStyles from './profile.module.css'
 
 const Profile = () => {
   return (
-    <main className={basicPagesStyles.container}>
+    <main className={profileStyles.main}>
       <AccountMenu />
       <UserInfo />
     </main>

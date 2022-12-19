@@ -1,4 +1,5 @@
 import { isOk, ORDER_URL } from '../../utils/api'
+import { getAccessToken } from '../../utils/auth'
 
 export const GET_ORDER_NUMBER_REQUEST = 'GET_ORDER_NUMBER_REQUEST'
 export const GET_ORDER_NUMBER_SUCCESS = 'GET_ORDER_NUMBER_SUCCESS'
@@ -16,6 +17,7 @@ export function sendOrder(order) {
       }),
       headers: {
         'Content-Type': 'application/json',
+        authorization: getAccessToken(),
       },
     })
       .then(isOk)
