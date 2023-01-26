@@ -1,41 +1,43 @@
+import { Redirect, Route } from 'react-router-dom'
+import { useCustomSelector } from '../../services/store'
 import React, { FC } from 'react'
-import { Route, Redirect, RouteProps, useLocation } from 'react-router-dom'
-import { getAccessToken } from '../../utils/auth'
-import { TLocation } from '../../utils/types'
 
-type TProtectedRoute = RouteProps & {
-  onlyForAuth: boolean
+export type TProtectedRoute = {
+  children: React.ReactNode
   path: string
-  children?: React.ReactNode
-  exact?: boolean
+  exact: boolean
 }
+export const ProtectedRoute: FC<TProtectedRoute> = ({ children, ...rest }) => {
+  const { user } = useCustomSelector(state => state.auth)
 
-const ProtectedRoute: FC<TProtectedRoute> = ({
-  onlyForAuth,
-  children,
-  ...rest
-}) => {
-  const isAuthorized = getAccessToken()
-  const location = useLocation<TLocation>()
+  // user === undefined (loading)
+  // user === null (no user)
+  // Boolean(user) (auth user)
 
-  if (!onlyForAuth && isAuthorized) {
-    const { from } = location.state || { from: { pathname: '/' } }
-    return (
-      <Route {...rest}>
-        <Redirect to={from!} />
-      </Route>
-    )
-  }
+  // THREE STATES
+  // 1. user is loading
+  // 2. user is null (done loading or no token and no user) [OK]
+  // 3. user is { name: ...} (done loading and there is a user) [OK]
 
-  if (onlyForAuth && !isAuthorized) {
-    return (
-      <Route {...rest}>
-        <Redirect to={{ pathname: '/login', state: { from: location } }} />
-      </Route>
-    )
-  }
-
-  return <Route {...rest}>{children}</Route>
+  return (
+    <Route
+      {...rest}
+      render={({ location }) => {
+        if (user === undefined) {
+          return null
+        }
+        if (user === null) {
+          return (
+            <Redirect
+              to={{
+                pathname: '/login',
+                state: { from: location },
+              }}
+            />
+          )
+        }
+        return children
+      }}
+    />
+  )
 }
-
-export default ProtectedRoute

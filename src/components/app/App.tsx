@@ -16,7 +16,7 @@ import {
   Orders,
   Feed,
 } from '../../pages'
-import ProtectedRoute from '../protected-route/protected-route'
+import { ProtectedRoute } from '../protected-route/protected-route'
 import {
   setAccessToken,
   getAccessToken,
@@ -123,21 +123,18 @@ const App: FC = () => {
         </Route>
         <ProtectedRoute
           path={'/profile'}
-          onlyForAuth
           exact
         >
           <Profile />
         </ProtectedRoute>
         <ProtectedRoute
           path={'/profile/orders'}
-          onlyForAuth
           exact
         >
           <Orders />
         </ProtectedRoute>
         <ProtectedRoute
           exact
-          onlyForAuth
           path={'/profile/orders/:id'}
         >
           <OrderInfo inModal={false} />
@@ -163,7 +160,6 @@ const App: FC = () => {
           </Route>
           <ProtectedRoute
             exact
-            onlyForAuth
             path={'/profile/orders/:id'}
           >
             <Modal closeModal={closeModal}>
