@@ -10,7 +10,6 @@ import { Link, Redirect, useHistory, useLocation } from 'react-router-dom'
 import { registration } from '../../services/actions/auth'
 import { useCustomDispatch, useCustomSelector } from '../../services/store'
 import { useForm } from '../../utils/utils'
-import { isOk } from '../../utils/api'
 import { TLocation } from '../../utils/types'
 
 const Register = () => {
@@ -28,11 +27,9 @@ const Register = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    dispatch(registration(values))
-      .then(isOk)
-      .then(() => {
-        history.push(location.state?.from || '/')
-      })
+    dispatch(registration(values)).then(() => {
+      history.push(location.state?.from || '/')
+    })
   }
 
   if (isAuth) {

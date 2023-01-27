@@ -98,7 +98,6 @@ const OrderInfo: FC<TOrderInfo> = ({ inModal }) => {
               key={index}
             >
               <div className={orderInfoStyles.qwerty}>
-                orderWithUniqueIngredients &&
                 <div className={`${orderInfoStyles.wrapper}`}>
                   <img
                     className={orderInfoStyles.image}
